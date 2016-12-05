@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://crystalxiaoou.github.io">
-  <title>Archives: 2016/12 | Crystal&#39;s Blog</title>
+  <title>数据库默认隔离级别 | Crystal&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Crystal's Blog">
-<meta property="og:url" content="http://crystalxiaoou.github.io/archives/2016/12/index.html">
+  <meta name="description" content="tags: 数据库隔离级别
+1.InnoDB默认是可重复读的（REPEATABLE READ）2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。    在my.cfg文件的[mysqld]节里类似如下设置该选项：= &amp;#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ |">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库默认隔离级别">
+<meta property="og:url" content="http://crystalxiaoou.github.io/2016/12/05/DB-ISOLATION/index.html">
 <meta property="og:site_name" content="Crystal's Blog">
-<meta property="og:description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
+<meta property="og:description" content="tags: 数据库隔离级别
+1.InnoDB默认是可重复读的（REPEATABLE READ）2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。    在my.cfg文件的[mysqld]节里类似如下设置该选项：= &amp;#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ |">
+<meta property="og:updated_time" content="2016-12-05T05:40:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Crystal's Blog">
-<meta name="twitter:description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
+<meta name="twitter:title" content="数据库默认隔离级别">
+<meta name="twitter:description" content="tags: 数据库隔离级别
+1.InnoDB默认是可重复读的（REPEATABLE READ）2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。    在my.cfg文件的[mysqld]节里类似如下设置该选项：= &amp;#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ |">
   
     <link rel="alternative" href="/atom.xml" title="Crystal&#39;s Blog" type="application/atom+xml">
   
@@ -144,76 +148,142 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-DB-ISOLATION" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      数据库默认隔离级别
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/05/DB-ISOLATION/" class="archive-article-date">
+
+        <a href="/2016/12/05/DB-ISOLATION/" class="archive-article-date">
   	<time datetime="2016-12-05T05:31:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/05/DB-ISOLATION/">数据库默认隔离级别</a>
-    </h1>
-  
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>tags: 数据库隔离级别</p>
+<p>1.InnoDB默认是可重复读的（REPEATABLE READ）<br>2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。<br>    在my.cfg文件的[mysqld]节里类似如下设置该选项：<br><figure class="highlight plain"><figcaption><span>= &#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE&#125;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">3. 用户可以用SET TRANSACTION语句改变单个会话或者所有新进连接的隔离级别</div><div class="line">``` SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL &#123;READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>用下列语句查询全局和会话事务隔离级别</p>
+<figure class="highlight plain"><figcaption><span>@@global.tx_isolation;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT @@session.tx_isolation;</div><div class="line">SELECT @@tx_isolation;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Oracle等多数数据库默认都是读已提交(Read Committed)</p>
+</li>
+</ol>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        <div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode"></div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/03/MyFirstBlog/" class="archive-article-date">
-  	<time datetime="2016-12-03T03:35:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/03/MyFirstBlog/">My First Blog</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/03/MyFirstBlog/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">My First Blog</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+
+
+
+
 
 
       </div>
@@ -235,8 +305,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
