@@ -164,14 +164,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>tags: 数据库隔离级别</p>
-<p>1.InnoDB默认是可重复读的（REPEATABLE READ）<br>2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。<br>    在my.cfg文件的[mysqld]节里类似如下设置该选项：<br><figure class="highlight plain"><figcaption><span>= &#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE&#125;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">3. 用户可以用SET TRANSACTION语句改变单个会话或者所有新进连接的隔离级别</div><div class="line">``` SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL &#123;READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE&#125;</div></pre></td></tr></table></figure></p>
+        <p>1.InnoDB默认是可重复读的（REPEATABLE READ）<br>2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。<br>    在my.cfg文件的[mysqld]节里类似如下设置该选项：<br><figure class="highlight plain"><figcaption><span>= &#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE&#125;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">3.用户可以用SET TRANSACTION语句改变单个会话或者所有新进连接的隔离级别</div><div class="line">```SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL &#123;READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE&#125;</div></pre></td></tr></table></figure></p>
+<p>4.用下列语句查询全局和会话事务隔离级别<br><figure class="highlight plain"><figcaption><span>@@global.tx_isolation;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT @@session.tx_isolation;</div><div class="line">SELECT @@tx_isolation;</div></pre></td></tr></table></figure></p>
 <ol>
-<li><p>用下列语句查询全局和会话事务隔离级别</p>
-<figure class="highlight plain"><figcaption><span>@@global.tx_isolation;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT @@session.tx_isolation;</div><div class="line">SELECT @@tx_isolation;</div></pre></td></tr></table></figure>
-</li>
-<li><p>Oracle等多数数据库默认都是读已提交(Read Committed)</p>
-</li>
+<li>Oracle等多数数据库默认都是读已提交(Read Committed)</li>
 </ol>
 
       
