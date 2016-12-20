@@ -152,6 +152,85 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-资管v0.3 接口端CR记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/21/资管v0.3 接口端CR记录/">资管CR测试</a>
+    </h1>
+  
+
+        <a href="/2016/12/21/资管v0.3 接口端CR记录/" class="archive-article-date">
+  	<time datetime="2016-12-20T16:13:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-21</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="资管V0-3接口端CR记录"><a href="#资管V0-3接口端CR记录" class="headerlink" title="资管V0.3接口端CR记录"></a>资管V0.3接口端CR记录</h2><p>瑞志</p>
+<ol>
+<li>@AutoWired 注入时最好都用接口进行注入 (同一个父类时，加@Qualifier指明 注入哪个类) </li>
+<li>用yarn写 配置文件可读性会更好&gt;</li>
+<li>一个项目最好一个流程包（AMS一个， ABS一个）</li>
+<li>把一个流程做成一个对象，把属性放在里面会更好(包ID,  processID 等属性)</li>
+<li>BMP 审核的代码还可以再抽象点，通过状态机流转简化流程</li>
+<li>审核希望以后做成基础服务，瑞志配合， AMS、ABS 公用</li>
+</ol>
+<p>王磊</p>
+<ol>
+<li>不用的代码直接删掉(涉及到审核的部分)</li>
+<li>字段校验失败，通知前端具体哪个字段？抛出一个异常 or 返回通知消息</li>
+<li>抛出异常时需要把异常堆栈打出来</li>
+<li>request.getUserName()  这句话 可以使用一个UserHandler， 把username 在登录时放到ThreadLocal里，  之后直接get即可</li>
+<li>事务跨了远程调用最好使用Executor异步执行TransactionCallBack进行回调去处理事务</li>
+<li>不要使用e.printStackTrace() 打印异常栈，最好使用logger.info(e); 记录到日志里</li>
+<li>计划和产品是两个聚合根，最好分开单独处理（使用command）, 这里计划下的产品与产品无关系，可以一起处理</li>
+<li>异常捕获后需要处理，或者直接不捕获</li>
+<li>把所有的表单请求字段拼接起来算一个md5值， 存在redis中，短时间有两条的话， 只处理一条， 前后端都需要处理</li>
+<li>幂等性，交易， 多次请求，只有一次回复，前端添加一次请求，如果一定时间没有返回，就再发一次，直到成功。</li>
+<li>初始化一个StringBuilider时，直接new StringBuidler即可</li>
+<li>时间格式化使用一个时间工具类， 不要直接写在代码里</li>
+<li>产品价格生效 和 未生效 公有的代码可以提出来，不要重复</li>
+<li>字段命名在不同的类中最好统一一下</li>
+<li>枚举直接通过==判断，不用取出code,再用equals判断</li>
+<li>产品价格参数校验失败直接抛出参数校验失败的异常</li>
+<li>收益率参数的校验还需要补充下</li>
+<li><p>单测需要补充下，主要分支需要覆盖到， 收益率生效，未生效</p>
+        
+          <a class="article-more-a" href="/2016/12/21/资管v0.3 接口端CR记录/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/21/资管v0.3 接口端CR记录/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-DB-ISOLATION" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -188,109 +267,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2016/12/20/DB-ISOLATION/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-资管v0.3 接口端CR记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/30/资管v0.3 接口端CR记录/">资管CR测试</a>
-    </h1>
-  
-
-        <a href="/2016/11/30/资管v0.3 接口端CR记录/" class="archive-article-date">
-  	<time datetime="2016-11-30T03:35:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-30</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="资管V0-3接口端CR记录"><a href="#资管V0-3接口端CR记录" class="headerlink" title="资管V0.3接口端CR记录"></a>资管V0.3接口端CR记录</h2><p>瑞志</p>
-<ol>
-<li>@AutoWired 注入时最好都用接口进行注入 (同一个父类时，加@Qualifier指明 注入哪个类) </li>
-<li>用yarn写 配置文件可读性会更好&gt;</li>
-<li>一个项目最好一个流程包（AMS一个， ABS一个）</li>
-<li>把一个流程做成一个对象，把属性放在里面会更好(包ID,  processID 等属性)</li>
-<li>BMP 审核的代码还可以再抽象点，通过状态机流转简化流程</li>
-<li>审核希望以后做成基础服务，瑞志配合， AMS、ABS 公用</li>
-</ol>
-<p>王磊</p>
-<ol>
-<li>不用的代码直接删掉(涉及到审核的部分)</li>
-<li>字段校验失败，通知前端具体哪个字段？抛出一个异常 or 返回通知消息</li>
-<li>抛出异常时需要把异常堆栈打出来</li>
-<li>request.getUserName()  这句话 可以使用一个UserHandler， 把username 在登录时放到ThreadLocal里，  之后直接get即可</li>
-<li>事务跨了远程调用最好使用Executor异步执行TransactionCallBack进行回调去处理事务</li>
-<li>不要使用e.printStackTrace() 打印异常栈，最好使用logger.info(e); 记录到日志里</li>
-<li>计划和产品是两个聚合根，最好分开单独处理（使用command）, 这里计划下的产品与产品无关系，可以一起处理</li>
-<li>异常捕获后需要处理，或者直接不捕获</li>
-<li>把所有的表单请求字段拼接起来算一个md5值， 存在redis中，短时间有两条的话， 只处理一条， 前后端都需要处理</li>
-<li>幂等性，交易， 多次请求，只有一次回复，前端添加一次请求，如果一定时间没有返回，就再发一次，直到成功。</li>
-<li>初始化一个StringBuilider时，直接new StringBuidler即可</li>
-<li>时间格式化使用一个时间工具类， 不要直接写在代码里</li>
-<li>产品价格生效 和 未生效 公有的代码可以提出来，不要重复</li>
-<li>字段命名在不同的类中最好统一一下</li>
-<li>枚举直接通过==判断，不用取出code,再用equals判断</li>
-<li>产品价格参数校验失败直接抛出参数校验失败的异常</li>
-<li>收益率参数的校验还需要补充下</li>
-<li>单测需要补充下，主要分支需要覆盖到， 收益率生效，未生效</li>
-</ol>
-<p>房杰</p>
-<ol>
-<li>FeeMode 直接switch , 不用getCode出来在Switch</li>
-<li>枚举直接判断，不用getCode </li>
-<li>没用到的变量直接删掉</li>
-<li>request.getData().validate() 提出来</li>
-<li>errMsg 做成枚举或者 ErrCode</li>
-<li>查出来再更新，  可以在loadById时加悲观锁</li>
-<li>查当前审核人的代码 可以抽出来，实现一个接口或者公共类，查询审核人的代码公用</li>
-<li>保存产品费用后端需要做校验</li>
-<li>删除产品费用是，关联的产品费用进行批量查询</li>
-<li>产品费用操作加事务</li>
-<li>验证失败直接抛出异常即可</li>
-<li>new Money (0) 改为 Money.ZERO</li>
-<li>一个方法参数里调用另一个方法时，把另一个方法抽出来</li>
-<li>loadById 的时候改成悲观锁,  update 的时候再释放掉 需要加个事务， 避免并发</li>
-<li>version 乐观锁,  没怎么用， 对性能要求较高，一致性要求较低时可以用</li>
-<li>跑批的时候 可以用乐观锁， 多条机器可以并行的跑时可以用</li>
-<li><p>用jdk8 里的LocalDateTime代替jodaTime</p>
-<p>张波</p>
-<ol>
-<li>与前面三位差不多</li>
-</ol>
-</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/11/30/资管v0.3 接口端CR记录/">展开全文 >></a>
         </p>
       
 

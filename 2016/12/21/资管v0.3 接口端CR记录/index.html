@@ -6,17 +6,39 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://crystalxiaoou.github.io">
-  <title>Archives: 2016/11 | Crystal&#39;s Blog</title>
+  <title>资管CR测试 | Crystal&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Crystal's Blog">
-<meta property="og:url" content="http://crystalxiaoou.github.io/archives/2016/11/index.html">
+  <meta name="description" content="资管V0.3接口端CR记录瑞志
+
+@AutoWired 注入时最好都用接口进行注入 (同一个父类时，加@Qualifier指明 注入哪个类) 
+用yarn写 配置文件可读性会更好&amp;gt;
+一个项目最好一个流程包（AMS一个， ABS一个）
+把一个流程做成一个对象，把属性放在里面会更好(包ID,  processID 等属性)
+BMP 审核的代码还可以再抽象点，通过状态机流转简化流程
+审核希望以后做">
+<meta property="og:type" content="article">
+<meta property="og:title" content="资管CR测试">
+<meta property="og:url" content="http://crystalxiaoou.github.io/2016/12/21/资管v0.3 接口端CR记录/index.html">
 <meta property="og:site_name" content="Crystal's Blog">
-<meta property="og:description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
+<meta property="og:description" content="资管V0.3接口端CR记录瑞志
+
+@AutoWired 注入时最好都用接口进行注入 (同一个父类时，加@Qualifier指明 注入哪个类) 
+用yarn写 配置文件可读性会更好&amp;gt;
+一个项目最好一个流程包（AMS一个， ABS一个）
+把一个流程做成一个对象，把属性放在里面会更好(包ID,  processID 等属性)
+BMP 审核的代码还可以再抽象点，通过状态机流转简化流程
+审核希望以后做">
+<meta property="og:updated_time" content="2016-12-20T16:13:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Crystal's Blog">
-<meta name="twitter:description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
+<meta name="twitter:title" content="资管CR测试">
+<meta name="twitter:description" content="资管V0.3接口端CR记录瑞志
+
+@AutoWired 注入时最好都用接口进行注入 (同一个父类时，加@Qualifier指明 注入哪个类) 
+用yarn写 配置文件可读性会更好&amp;gt;
+一个项目最好一个流程包（AMS一个， ABS一个）
+把一个流程做成一个对象，把属性放在里面会更好(包ID,  processID 等属性)
+BMP 审核的代码还可以再抽象点，通过状态机流转简化流程
+审核希望以后做">
   
     <link rel="alternative" href="/atom.xml" title="Crystal&#39;s Blog" type="application/atom+xml">
   
@@ -150,49 +172,192 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-资管v0.3 接口端CR记录" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/29/hello-world/" class="archive-article-date">
-  	<time datetime="2016-11-29T08:57:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/29/hello-world/">Hello World</a>
+    <h1 class="article-title" itemprop="name">
+      资管CR测试
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        <a href="/2016/12/21/资管v0.3 接口端CR记录/" class="archive-article-date">
+  	<time datetime="2016-12-20T16:13:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-21</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="资管V0-3接口端CR记录"><a href="#资管V0-3接口端CR记录" class="headerlink" title="资管V0.3接口端CR记录"></a>资管V0.3接口端CR记录</h2><p>瑞志</p>
+<ol>
+<li>@AutoWired 注入时最好都用接口进行注入 (同一个父类时，加@Qualifier指明 注入哪个类) </li>
+<li>用yarn写 配置文件可读性会更好&gt;</li>
+<li>一个项目最好一个流程包（AMS一个， ABS一个）</li>
+<li>把一个流程做成一个对象，把属性放在里面会更好(包ID,  processID 等属性)</li>
+<li>BMP 审核的代码还可以再抽象点，通过状态机流转简化流程</li>
+<li>审核希望以后做成基础服务，瑞志配合， AMS、ABS 公用</li>
+</ol>
+<p>王磊</p>
+<ol>
+<li>不用的代码直接删掉(涉及到审核的部分)</li>
+<li>字段校验失败，通知前端具体哪个字段？抛出一个异常 or 返回通知消息</li>
+<li>抛出异常时需要把异常堆栈打出来</li>
+<li>request.getUserName()  这句话 可以使用一个UserHandler， 把username 在登录时放到ThreadLocal里，  之后直接get即可</li>
+<li>事务跨了远程调用最好使用Executor异步执行TransactionCallBack进行回调去处理事务</li>
+<li>不要使用e.printStackTrace() 打印异常栈，最好使用logger.info(e); 记录到日志里</li>
+<li>计划和产品是两个聚合根，最好分开单独处理（使用command）, 这里计划下的产品与产品无关系，可以一起处理</li>
+<li>异常捕获后需要处理，或者直接不捕获</li>
+<li>把所有的表单请求字段拼接起来算一个md5值， 存在redis中，短时间有两条的话， 只处理一条， 前后端都需要处理</li>
+<li>幂等性，交易， 多次请求，只有一次回复，前端添加一次请求，如果一定时间没有返回，就再发一次，直到成功。</li>
+<li>初始化一个StringBuilider时，直接new StringBuidler即可</li>
+<li>时间格式化使用一个时间工具类， 不要直接写在代码里</li>
+<li>产品价格生效 和 未生效 公有的代码可以提出来，不要重复</li>
+<li>字段命名在不同的类中最好统一一下</li>
+<li>枚举直接通过==判断，不用取出code,再用equals判断</li>
+<li>产品价格参数校验失败直接抛出参数校验失败的异常</li>
+<li>收益率参数的校验还需要补充下</li>
+<li><p>单测需要补充下，主要分支需要覆盖到， 收益率生效，未生效</p>
+<a id="more"></a>
+<p>房杰</p>
+</li>
+<li><p>FeeMode 直接switch , 不用getCode出来在Switch</p>
+</li>
+<li>枚举直接判断，不用getCode </li>
+<li>没用到的变量直接删掉</li>
+<li>request.getData().validate() 提出来</li>
+<li>errMsg 做成枚举或者 ErrCode</li>
+<li>查出来再更新，  可以在loadById时加悲观锁</li>
+<li>查当前审核人的代码 可以抽出来，实现一个接口或者公共类，查询审核人的代码公用</li>
+<li>保存产品费用后端需要做校验</li>
+<li>删除产品费用是，关联的产品费用进行批量查询</li>
+<li>产品费用操作加事务</li>
+<li>验证失败直接抛出异常即可</li>
+<li>new Money (0) 改为 Money.ZERO</li>
+<li>一个方法参数里调用另一个方法时，把另一个方法抽出来</li>
+<li>loadById 的时候改成悲观锁,  update 的时候再释放掉 需要加个事务， 避免并发</li>
+<li>version 乐观锁,  没怎么用， 对性能要求较高，一致性要求较低时可以用</li>
+<li>跑批的时候 可以用乐观锁， 多条机器可以并行的跑时可以用</li>
+<li><p>用jdk8 里的LocalDateTime代替jodaTime</p>
+<p>张波</p>
+<ol>
+<li>与前面三位差不多</li>
+</ol>
+</li>
+</ol>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://crystalxiaoou.github.io/2016/12/21/资管v0.3 接口端CR记录/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/20/DB-ISOLATION/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据库默认隔离级别</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
 
 
           </div>
@@ -215,8 +380,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
