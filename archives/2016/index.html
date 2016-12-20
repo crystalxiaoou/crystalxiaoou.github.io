@@ -23,21 +23,22 @@
   
     <link rel="icon" href="/assets/haha.jpeg">
   
-  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/main.css?v=4.0.0.css">
+  
+
   
 
 </head>
 
 <body>
-  <div id="container">
-    <div class="left-col">
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
       <div class="overlay"></div>
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			
-			<img src="/assets/me.jpeg" class="js-avatar">
-			
+			<img src="/assets/haha.jpeg" class="js-avatar">
 		</a>
 
 		<hgroup>
@@ -53,7 +54,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/photos">相册</a></li>
+				<li><a href="/archives">所有文章</a></li>
 	        
 			</ul>
 		</nav>
@@ -61,22 +62,17 @@
 	        
     		
     			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			<a data-idx="0" q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
     			
     			
             
     			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
     			
     			
             
     			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			<a data-idx="2" q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
     			
     			
             
@@ -100,7 +96,7 @@
 </div>
 
     </div>
-    <div class="mid-col">
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-sort"></i></div>
@@ -109,9 +105,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				
-					<img src="/assets/me.jpeg" class="js-avatar">
-				
+				<img src="/assets/haha.jpeg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author">Crystal</h1>
@@ -124,7 +118,10 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/photos">相册</a></li>
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        
+		        	<li><a href="/archives/">所有文章</a></li>
 		        
 				</ul>
 			</nav>
@@ -147,8 +144,13 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
-        
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            
   
   
     
@@ -165,41 +167,14 @@
   <div class="archive-article-inner">
     <header class="archive-article-header">
       	<div class="article-meta">
-	      	<a href="/2016/12/05/DB-ISOLATION/" class="archive-article-date">
-  	<time datetime="2016-12-05T05:31:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-05</time>
+	      	<a href="/2016/12/20/DB-ISOLATION/" class="archive-article-date">
+  	<time datetime="2016-12-20T15:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
 </a>
         </div>
     	 
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/05/DB-ISOLATION/">数据库默认隔离级别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/03/MyFirstBlog/" class="archive-article-date">
-  	<time datetime="2016-12-03T03:35:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/03/MyFirstBlog/">My First Blog</a>
+      <a class="archive-article-title" href="/2016/12/20/DB-ISOLATION/">数据库默认隔离级别</a>
     </h1>
   
 
@@ -274,6 +249,8 @@
     
 
 
+          </div>
+        </div>
       </div>
       <footer id="footer">
   <div class="outer">
@@ -291,7 +268,6 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		animate: true,
 		isHome: false,
 		isPost: false,
 		isArchive: true,
@@ -303,63 +279,117 @@
 	}
 </script>
 
-<script src="/./main.js"></script>
+<script src="/./main.js?v=4.0.0.js"></script>
 
 
     
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
   <div class="tools-wrap">
     
-    	<section class="tools-section tools-section-all chose">
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">apache commons</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">github</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            2、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: true
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
     	</section>
     
 
     
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				
-    			</div>
-    	</section>
-    
-
-    
-    	<section class="tools-section tools-section-friends">
+    	<section class="tools-section tools-section-friends" q-show="friends">
   		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接1</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接2</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接3</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接4</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接5</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接6</a>
-  	        
-  	        </div>
+        <ul class="search-ul">
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+            </li>
+          
+        </ul>
   		
     	</section>
     
 
     
-    	<section class="tools-section tools-section-me">
+    	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
   	  		<div class="aboutme-wrap" id="js-aboutme">Crystal, &lt;br&gt;毕业于中国科学院大学&lt;br&gt;&lt;br&gt;热爱动漫，喜欢大海,&lt;/br&gt;目前是一枚Java工程师&lt;br&gt;年轻无为，卖马为生。</div>
   	  	
