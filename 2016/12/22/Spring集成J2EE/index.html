@@ -6,17 +6,32 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://crystalxiaoou.github.io">
-  <title>Archives: 2016/12 | Crystal&#39;s Blog</title>
+  <title>Spring对J2EE服务的继承和支持之Spring框架内的JNDI支持 | Crystal&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Crystal's Blog">
-<meta property="og:url" content="http://crystalxiaoou.github.io/archives/2016/12/index.html">
+  <meta name="description" content="1.介绍
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Spring框架通过近乎一致的方式对各种J2EE服务API的使用进行了合适的封装，简化了我们的日常开发工作。
+
+2.JNDI简单回顾
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;JNDI(Java Naming and Directory Interfare, Java命名与目录接口)，其主要目的是为了统一各种命名与目录服务(namin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring对J2EE服务的继承和支持之Spring框架内的JNDI支持">
+<meta property="og:url" content="http://crystalxiaoou.github.io/2016/12/22/Spring集成J2EE/index.html">
 <meta property="og:site_name" content="Crystal's Blog">
-<meta property="og:description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
+<meta property="og:description" content="1.介绍
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Spring框架通过近乎一致的方式对各种J2EE服务API的使用进行了合适的封装，简化了我们的日常开发工作。
+
+2.JNDI简单回顾
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;JNDI(Java Naming and Directory Interfare, Java命名与目录接口)，其主要目的是为了统一各种命名与目录服务(namin">
+<meta property="og:image" content="http://crystalxiaoou.github.io/img/JNDI架构示意图.png">
+<meta property="og:updated_time" content="2016-12-22T15:46:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Crystal's Blog">
-<meta name="twitter:description" content="中国科学院大学13级渣硕,就职于百度。擅长java,目前正处于打怪升级阶段。此为博客一枚。">
+<meta name="twitter:title" content="Spring对J2EE服务的继承和支持之Spring框架内的JNDI支持">
+<meta name="twitter:description" content="1.介绍
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Spring框架通过近乎一致的方式对各种J2EE服务API的使用进行了合适的封装，简化了我们的日常开发工作。
+
+2.JNDI简单回顾
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;JNDI(Java Naming and Directory Interfare, Java命名与目录接口)，其主要目的是为了统一各种命名与目录服务(namin">
+<meta name="twitter:image" content="http://crystalxiaoou.github.io/img/JNDI架构示意图.png">
   
     <link rel="alternative" href="/atom.xml" title="Crystal&#39;s Blog" type="application/atom+xml">
   
@@ -150,113 +165,155 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Spring集成J2EE" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/22/Spring集成J2EE/" class="archive-article-date">
-  	<time datetime="2016-12-22T14:17:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-22</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/22/Spring集成J2EE/">Spring对J2EE服务的继承和支持之Spring框架内的JNDI支持</a>
+    <h1 class="article-title" itemprop="name">
+      Spring对J2EE服务的继承和支持之Spring框架内的JNDI支持
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        <a href="/2016/12/22/Spring集成J2EE/" class="archive-article-date">
+  	<time datetime="2016-12-22T14:17:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-22</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h2><blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Spring框架通过近乎一致的方式对各种J2EE服务API的使用进行了合适的封装，简化了我们的日常开发工作。</p>
+</blockquote>
+<h2 id="2-JNDI简单回顾"><a href="#2-JNDI简单回顾" class="headerlink" title="2.JNDI简单回顾"></a>2.JNDI简单回顾</h2><blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;JNDI(Java Naming and Directory Interfare, Java命名与目录接口)，其主要目的是为了统一各种命名与目录服务(naming service/directory service)的访问接口。整个JNDI的架构由API和SPI(Service Provider Interface)两部分组成，如下图所示。</p>
+</blockquote>
+<p><img src="/img/JNDI架构示意图.png" alt="JDNI架构示意图"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JNDI API主要公开给引用程序使用，她为Java应用程序访问各种命名与目录服务提供了统一的接口。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JNDI SPI主要公开给具体命名或目录服务商(Vendor)使用,它为各种具体的命名和目录服务产品提供了一个扩展层。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在JavaEE平台上,JNDI更多的为资源的访问或部署提供了一个隔离层。</p>
+<p>JNDI的常见应用场景:<br><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> (1) JMS需要通过JNDI获取ConnectionFactory<br><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em> (2) EJB需要通过JNDI获取Home接口的引用</p>
+<h2 id="3-Spring框架内访问JNDI的基石-JndiTemplate"><a href="#3-Spring框架内访问JNDI的基石-JndiTemplate" class="headerlink" title="3.Spring框架内访问JNDI的基石-JndiTemplate"></a>3.Spring框架内访问JNDI的基石-JndiTemplate</h2><h2 id="4-测试"><a href="#4-测试" class="headerlink" title="4.测试"></a>4.测试</h2>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JNDI/">JNDI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 	<i class="icon-book icon"></i>
 	<a class="article-category-link" href="/categories/Spring框架/">Spring框架</a>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://crystalxiaoou.github.io/2016/12/22/Spring集成J2EE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/21/资管v0.3 接口端CR记录/" class="archive-article-date">
-  	<time datetime="2016-12-20T16:13:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/21/资管v0.3 接口端CR记录/">资管CR测试</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/21/资管v0.3 接口端CR记录/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">资管CR测试</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/12/20/DB-ISOLATION/" class="archive-article-date">
-  	<time datetime="2016-12-20T15:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/12/20/DB-ISOLATION/">数据库默认隔离级别</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+
+
 
 
           </div>
@@ -279,8 +336,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
