@@ -6,18 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://crystalxiaoou.github.io">
-  <title>数据库默认隔离级别 | Crystal&#39;s Blog</title>
+  <title>优化SQL的一般步骤 | Crystal&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.InnoDB默认是可重复读的（REPEATABLE READ）2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。    在my.cfg文件的[mysqld]节里类似如下设置该选项：= &amp;#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE&amp;#">
+  <meta name="description" content="1. 通过show status 命令了解各种SQL的执行频率1.1 MySQL客户端连接成功后，通过show [session|global] status 命令可以提供服务器状态信息 
+1.2 在操作系统上，可以使用mysqladmin extended-status 命令获取这些消息。
+1.3 show [session|global] status可以根据需要加上参数”session” 或">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库默认隔离级别">
-<meta property="og:url" content="http://crystalxiaoou.github.io/2016/12/20/DB-ISOLATION/index.html">
+<meta property="og:title" content="优化SQL的一般步骤">
+<meta property="og:url" content="http://crystalxiaoou.github.io/2017/01/02/优化SQL的一般步骤/index.html">
 <meta property="og:site_name" content="Crystal's Blog">
-<meta property="og:description" content="1.InnoDB默认是可重复读的（REPEATABLE READ）2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。    在my.cfg文件的[mysqld]节里类似如下设置该选项：= &amp;#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE&amp;#">
-<meta property="og:updated_time" content="2016-12-20T15:33:40.000Z">
+<meta property="og:description" content="1. 通过show status 命令了解各种SQL的执行频率1.1 MySQL客户端连接成功后，通过show [session|global] status 命令可以提供服务器状态信息 
+1.2 在操作系统上，可以使用mysqladmin extended-status 命令获取这些消息。
+1.3 show [session|global] status可以根据需要加上参数”session” 或">
+<meta property="og:image" content="http://crystalxiaoou.github.io/img/show_status命令.png">
+<meta property="og:image" content="http://crystalxiaoou.github.io/img/explain分析低效SQL.png">
+<meta property="og:image" content="http://crystalxiaoou.github.io/img/Year字段创建索引.png">
+<meta property="og:image" content="http://crystalxiaoou.github.io/img/改进的explain.png">
+<meta property="og:updated_time" content="2017-01-02T07:18:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库默认隔离级别">
-<meta name="twitter:description" content="1.InnoDB默认是可重复读的（REPEATABLE READ）2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。    在my.cfg文件的[mysqld]节里类似如下设置该选项：= &amp;#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE&amp;#">
+<meta name="twitter:title" content="优化SQL的一般步骤">
+<meta name="twitter:description" content="1. 通过show status 命令了解各种SQL的执行频率1.1 MySQL客户端连接成功后，通过show [session|global] status 命令可以提供服务器状态信息 
+1.2 在操作系统上，可以使用mysqladmin extended-status 命令获取这些消息。
+1.3 show [session|global] status可以根据需要加上参数”session” 或">
+<meta name="twitter:image" content="http://crystalxiaoou.github.io/img/show_status命令.png">
   
     <link rel="alternative" href="/atom.xml" title="Crystal&#39;s Blog" type="application/atom+xml">
   
@@ -151,29 +162,170 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-DB-ISOLATION" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-优化SQL的一般步骤" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      数据库默认隔离级别
+      优化SQL的一般步骤
     </h1>
   
 
-        <a href="/2016/12/20/DB-ISOLATION/" class="archive-article-date">
-  	<time datetime="2016-12-20T15:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+        <a href="/2017/01/02/优化SQL的一般步骤/" class="archive-article-date">
+  	<time datetime="2017-01-02T05:43:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-02</time>
 </a>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.InnoDB默认是可重复读的（REPEATABLE READ）<br>2.你可以在命令行用–transaction-isolation选项，或在选项文件里，为所有连接设置默认隔离级别。<br>    在my.cfg文件的[mysqld]节里类似如下设置该选项：<br><figure class="highlight plain"><figcaption><span>= &#123;READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE&#125;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">3.用户可以用SET TRANSACTION语句改变单个会话或者所有新进连接的隔离级别</div><div class="line">```SET [SESSION | GLOBAL] TRANSACTION ISOLATION LEVEL &#123;READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE&#125;</div></pre></td></tr></table></figure></p>
-<p>4.用下列语句查询全局和会话事务隔离级别<br><figure class="highlight plain"><figcaption><span>@@global.tx_isolation;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT @@session.tx_isolation;</div><div class="line">SELECT @@tx_isolation;</div></pre></td></tr></table></figure></p>
-<ol>
-<li>Oracle等多数数据库默认都是读已提交(Read Committed)</li>
-</ol>
+        <h2 id="1-通过show-status-命令了解各种SQL的执行频率"><a href="#1-通过show-status-命令了解各种SQL的执行频率" class="headerlink" title="1. 通过show status 命令了解各种SQL的执行频率"></a>1. 通过show status 命令了解各种SQL的执行频率</h2><p>1.1 MySQL客户端连接成功后，通过show [session|global] status 命令可以提供服务器状态信息 </p>
+<p>1.2 在操作系统上，可以使用mysqladmin extended-status 命令获取这些消息。</p>
+<p>1.3 show [session|global] status可以根据需要加上参数”session” 或者 “global” 来显示session级（<font color="green">当前连接</font>) 的统计结果和global级（<font color="green">自数据库上次启动至今</font>）的统计结果。 不写，则默认为session级。</p>
+<p>1.4 下面的命令显示了当前session中所有统计参数的值<br><img src="/img/show_status命令.png" alt="show status命令"></p>
+<p>1.4.1 Com_xxx表示每个xxx语句的执行次数,我们通常比较关系的统计参数如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Com_select</td>
+<td style="text-align:center">执行select操作的次数，一次查询只累加1</td>
+</tr>
+<tr>
+<td style="text-align:center">Com_insert</td>
+<td style="text-align:center">执行insert操作的次数，对于批量插入的INSERT操作，只累加一次</td>
+</tr>
+<tr>
+<td style="text-align:center">Com_update</td>
+<td style="text-align:center">执行update操作的次数</td>
+</tr>
+<tr>
+<td style="text-align:center">Com_delete</td>
+<td style="text-align:center">执行delete操作的次数</td>
+</tr>
+</tbody>
+</table>
+<p>备注：<font color="cyan">上面这些参数对于所有存储引擎的表操作都会进行累计。</font> </p>
+<p> 1.4.2 下面这几个参数只是针对InnoDB存储引擎的</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Innodb_rows_read</td>
+<td style="text-align:center">select查询返回的行数</td>
+</tr>
+<tr>
+<td style="text-align:center">Innodb_inserted</td>
+<td style="text-align:center">执行Insert操作插入的行数</td>
+</tr>
+<tr>
+<td style="text-align:center">Innodb_updated</td>
+<td style="text-align:center">执行Updated操作更新的行数</td>
+</tr>
+<tr>
+<td style="text-align:center">Innodb_deleted</td>
+<td style="text-align:center">执行Deleted操作删除的行数</td>
+</tr>
+</tbody>
+</table>
+<p>备注：   <font color="cyan">（1）通过以上几个参数，可以很容易了解当前数据库的应用是以插入为主还是以查询操作为主，以及各类SQL大致的执行比例</font><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <font color="cyan">（2）对于更新操作的计数，是对执行次数的计数，不论提交还是回滚都会进行累加</font></p>
+<p> 1.4.3 对于事务型的应用，通过Com_commit和Com_rollback可以了解事务提交和回滚的情况,对于回滚操作非常频繁的数据库，可能意味着应用编写存在问题</p>
+<p> 1.4.4 了解数据库基本情况的几个参数</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Connections</td>
+<td style="text-align:center">试图连接MySQL服务器的次数</td>
+</tr>
+<tr>
+<td style="text-align:center">Uptime</td>
+<td style="text-align:center">服务器工作时间</td>
+</tr>
+<tr>
+<td style="text-align:center">Slow_queries</td>
+<td style="text-align:center">慢查询的次数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-定位执行效率较低的SQL"><a href="#2-定位执行效率较低的SQL" class="headerlink" title="2. 定位执行效率较低的SQL"></a>2. 定位执行效率较低的SQL</h2><p><strong><em>可以通过以下两种方式定位执行效率较低的SQL：</em></strong></p>
+<ul>
+<li>通过慢查询日志定位那些执行效率较低的SQL语句，用–log-slow-queries[=file_name]选项启动时，mysqld写一个包含所有执行时间超过long_query_time秒的SQL语句的日志文件。</li>
+<li>慢查询日志在查询以后才记录，所以在应用反映执行效率出现问题的时候查询慢查询日志并不能定位问题，可以使用<code>show processlist</code>命令查看当前MYSQL在运行的线程，包括线程的状态、是否锁表等，可以实时地查看SQL的执行情况，同时对一些锁表操作进行优化。</li>
+</ul>
+<h2 id="3-通过EXPLAIN分析低效SQL的执行计划"><a href="#3-通过EXPLAIN分析低效SQL的执行计划" class="headerlink" title="3. 通过EXPLAIN分析低效SQL的执行计划"></a>3. 通过EXPLAIN分析低效SQL的执行计划</h2><p>3.1 查询到效率低的SQL后，可以通过EXPLAIN或者DESC命令获取MYSQL如何执行SELECT语句的信息,包括在SELECT语句执行过程中，表如何连接和连接的顺序</p>
+<p>3.2 如果想查询2006年所有公司的销售额，需要管理sales表和company表，并且对moneys字段做求和(sum)操作，相应SQL的执行计划如下:<br><img src="/img/explain分析低效SQL.png" alt="explain执行计划例子"></p>
+<p>3.3 每个列的简单解析如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">select_type</td>
+<td style="text-align:left">表示SELECT的类型，常见的取值有：<br>1. SIMPLE(简单表，即不使用表连接或子查询)<br>2. PRIMARY(主查询，即外部的查询)<br>3. UNION (UNION中的第二个或者后面的查询语句)<br>4. SUBQUERY(子查询中的第一个SELECT)<br></td>
+<td style="text-align:center">这里只列出主要的</td>
+</tr>
+<tr>
+<td style="text-align:center">table</td>
+<td style="text-align:left">输出结果集的表</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">type</td>
+<td style="text-align:left">表示表的连接类型,性能由好到差的类型为:<br>1. system(表中仅有一行，即常量表) <br> 2. const(单表中最多有一个匹配行，例如primary key 或者 unique index)<br> 3. eq_ref(对于前面的每一行，在此表中只查询一条记录，简单来说，就是多表连接中使用primary key 或者unique index) <br> 4. ref(与eq_ref类似，区别是多表连接中使用普通的索引)<br> 5. ref_or_null(与ref类似，区别在于条件中包含对NULL的查询) <br> 6. index_merge(索引合并优化) <br> 7. unique_subquery(in 的后面是一个查询主键字段的子查询) <br> 8. index_subquery(与unique_subquery类似，区别在于in的后面是查询非唯一索引字段的子查询) <br> 9. range(单表中的范围查询) <br> 10. index(对于前面的每一行，都通过索引查询来得到数据) <br> 11. all(对于前面的每一行，都通过全表扫描来得到数据)</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">possible_keys</td>
+<td style="text-align:left">表示查询时，可能使用的索引</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">key</td>
+<td style="text-align:left">表示实际使用的索引</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">key_len</td>
+<td style="text-align:left">索引字段的长度</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">rows</td>
+<td style="text-align:left">扫描行的数量</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Extra</td>
+<td style="text-align:left">执行情况的说明和描述</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-确定问题，并采取相应的优化措施"><a href="#4-确定问题，并采取相应的优化措施" class="headerlink" title="4. 确定问题，并采取相应的优化措施"></a>4. 确定问题，并采取相应的优化措施</h2><p>4.1 经过以上3个步骤的分析，基本就可以确认问题出现的原因。此时，可以根据情况采取相应的措施，进行优化提高执行的效率</p>
+<p>4.2 在上面的例子中，已经可以确认是对a表的全表扫描导致效率的不理想，那么对a表的year字段创建索引，具体如下:<br><img src="/img/Year字段创建索引.png" alt="Year字段创建索引"></p>
+<p>4.3 重新查看执行计划，如下:<br><img src="/img/改进的explain.png" alt="改进后的explain"></p>
+<p>备注: <font color="green">可以发现建立索引后，对a表的扫描行数明显减少(从1000行减少到1行)， 可见索引可以大大提高数据库访问速度，尤其在表很庞大的时候，这种优势更加明显。</font></p>
 
       
 
@@ -208,7 +360,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQL服务器状态/">MYSQL服务器状态</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL优化/">SQL优化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/explain/">explain</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql执行计划/">sql执行计划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/慢查询/">慢查询</a></li></ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/MYSQL/">MYSQL</a>
+	</div>
+
 
       
 
@@ -258,7 +420,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://crystalxiaoou.github.io/2016/12/20/DB-ISOLATION/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://crystalxiaoou.github.io/2017/01/02/优化SQL的一般步骤/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -272,18 +434,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/12/21/资管v0.3 接口端CR记录/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          资管CR测试
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/29/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2016/12/30/Swagger学习-一/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Swagger学习(一)</div>
       <i class="icon-circle-right"></i>
     </a>
   
