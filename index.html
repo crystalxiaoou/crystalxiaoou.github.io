@@ -152,6 +152,379 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JMS开发步骤和持久化-非持久化Topic消息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/06/JMS开发步骤和持久化-非持久化Topic消息/">JMS开发步骤和持久化/非持久化Topic消息</a>
+    </h1>
+  
+
+        <a href="/2017/01/06/JMS开发步骤和持久化-非持久化Topic消息/" class="archive-article-date">
+  	<time datetime="2017-01-06T10:19:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-06</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/JMS开发步骤和持久化-非持久化化Topic消息.png" alt="持久化和非持久化消息"></p>
+<h2 id="1-开发一个JMS的基本步骤如下"><a href="#1-开发一个JMS的基本步骤如下" class="headerlink" title="1 开发一个JMS的基本步骤如下:"></a>1 开发一个JMS的基本步骤如下:</h2><p>　　(1) 创建一个JMS connection factory</p>
+<p>　　(2) 通过connection factory来创建JMS connection</p>
+<p>　　(3) 启动JMS connection</p>
+<p>　　(4) 通过connection创建JMS session</p>
+<p>　　(5) 创建JMS destination</p>
+<p>　　(6) 创建JMS producer 或者创建JMS message,并设置destination</p>
+<p>　　(7) 创建JMS consumer 或者注册一个JMS message listener</p>
+<p>　　(8) 发送或者接受JMS message</p>
+<p>　　(9) 关闭所有的JMS资源(connection、session、producer、consumer等)</p>
+<p>可以参考下图：<br><img src="/img/JMS开发步骤.png" alt="JMS开发步骤"></p>
+<h2 id="2-非持久的Topic消息示例"><a href="#2-非持久的Topic消息示例" class="headerlink" title="2 非持久的Topic消息示例"></a>2 非持久的Topic消息示例</h2><blockquote>
+<p>对于非持久化的消息，当发送方发送消息的时候:</p>
+<blockquote>
+<p>(1) 如果接收方不在线，则接收方永远也收不到这些消息了</p>
+<p>(2) 如果接收方在线，则接收方会收到这些消息</p>
+</blockquote>
+</blockquote>
+<h3 id="2-1-消息发送程序"><a href="#2-1-消息发送程序" class="headerlink" title="2.1 消息发送程序"></a>2.1 消息发送程序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.jms.Connection;</div><div class="line"><span class="keyword">import</span> javax.jms.ConnectionFactory;</div><div class="line"><span class="keyword">import</span> javax.jms.Destination;</div><div class="line"><span class="keyword">import</span> javax.jms.MessageProducer;</div><div class="line"><span class="keyword">import</span> javax.jms.Session;</div><div class="line"><span class="keyword">import</span> javax.jms.TextMessage;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* 非持久化Topic消息发送者</div><div class="line">* <span class="doctag">@author</span> crystal</div><div class="line">*</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NoPersistenceSender</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="comment">//创建一个JMS connection factory</span></div><div class="line">        ConnectionFactory connectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(<span class="string">"tcp://192.168.1.81:61616"</span>);</div><div class="line">        <span class="comment">//通过connection factory来创建JMS connection</span></div><div class="line">        Connection connection = connectionFactory.createConnection();</div><div class="line">        <span class="comment">//启动JMS connection</span></div><div class="line">        connection.start();</div><div class="line">        <span class="comment">//通过connection创建JMS session</span></div><div class="line">        Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);</div><div class="line">        <span class="comment">//创建JMS destination</span></div><div class="line">        Destination destination = session.createTopic(<span class="string">"noPersistenceTopic"</span>);</div><div class="line">        <span class="comment">//创建JMS producer</span></div><div class="line">        MessageProducer producer = session.createProducer(destination);    </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)&#123;</div><div class="line">            TextMessage message = session.createTextMessage(<span class="string">"message-"</span>+i);</div><div class="line">            <span class="comment">//发送message</span></div><div class="line">            producer.send(message);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//关闭所有的JMS资源</span></div><div class="line">        session.commit();</div><div class="line">        session.close();</div><div class="line">        connection.close();</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>运行完消息发送程序后，可以访问192.168.1.81:8161</p>
+</blockquote>
+<h3 id="2-2-消息接收程序"><a href="#2-2-消息接收程序" class="headerlink" title="2.2 消息接收程序"></a>2.2 消息接收程序</h3><blockquote>
+<p>对于非持久的Topic消息的接收需要注意以下几点:</p>
+<blockquote>
+<p>a.接收程序必须在线，然后消息发送方再发送消息，接收程序才能接收到消息</p>
+<p>b.由于不知道消息发送方要发送多少条消息，所以利用while循环的方式来接收消息</p>
+<p>c.如果接收程序不在线，此时发送程序发送了消息的话，则该消息将永远不会被接收方收到。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.jms.Connection;</div><div class="line"><span class="keyword">import</span> javax.jms.ConnectionFactory;</div><div class="line"><span class="keyword">import</span> javax.jms.Destination;</div><div class="line"><span class="keyword">import</span> javax.jms.Message;</div><div class="line"><span class="keyword">import</span> javax.jms.MessageConsumer;</div><div class="line"><span class="keyword">import</span> javax.jms.Session;</div><div class="line"><span class="keyword">import</span> javax.jms.TextMessage;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* 非持久化Topic消息接收者</div><div class="line">* <span class="doctag">@author</span> crystal</div><div class="line">*</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NoPersistenceReceiver</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="comment">//创建一个JMS connection factory</span></div><div class="line">       ConnectionFactory connectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(<span class="string">"tcp://192.168.1.81:61616"</span>);</div><div class="line">        <span class="comment">//通过connection factory来创建JMS connection</span></div><div class="line">       Connection connection = connectionFactory.createConnection();</div><div class="line">        <span class="comment">//启动JMS connection</span></div><div class="line">        connection.start();</div><div class="line">       <span class="comment">//通过connection创建JMS session</span></div><div class="line">       Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);</div><div class="line">        <span class="comment">//创建JMS destination</span></div><div class="line">        Destination destination = session.createTopic(<span class="string">"noPersistenceTopic"</span>);</div><div class="line">       <span class="comment">//创建JMS consumer</span></div><div class="line">        MessageConsumer consumer = session.createConsumer(destination);</div><div class="line">        Message message = consumer.receive();</div><div class="line">       <span class="keyword">while</span>(message != <span class="keyword">null</span>)&#123;</div><div class="line">            TextMessage txtMsg = (TextMessage)message;</div><div class="line">           System.out.println(<span class="string">"收到消息:"</span>+txtMsg.getText());</div><div class="line">          message = consumer.receive();</div><div class="line">       &#125;</div><div class="line">        <span class="comment">//关闭所有的JMS资源</span></div><div class="line">       session.commit();</div><div class="line">       session.close();</div><div class="line">        connection.close();</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h2 id="3-持久的Topic消息示例"><a href="#3-持久的Topic消息示例" class="headerlink" title="3.持久的Topic消息示例"></a>3.持久的Topic消息示例</h2><h3 id="3-1-消息发送程序"><a href="#3-1-消息发送程序" class="headerlink" title="3.1 消息发送程序"></a>3.1 消息发送程序</h3><blockquote>
+<p>对于持久的Topic消息的发送方需要注意以下几点:</p>
+<blockquote>
+<p>a.要用持久化订阅，发送消息者要用DeliveryMode.PERSISTENT模式来发送</p>
+</blockquote>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.jms.Connection;</div><div class="line"><span class="keyword">import</span> javax.jms.ConnectionFactory;</div><div class="line"><span class="keyword">import</span> javax.jms.DeliveryMode;</div><div class="line"><span class="keyword">import</span> javax.jms.Destination;</div><div class="line"><span class="keyword">import</span> javax.jms.MessageProducer;</div><div class="line"><span class="keyword">import</span> javax.jms.Session;</div><div class="line"><span class="keyword">import</span> javax.jms.TextMessage;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 持久化Topic消息发送者</div><div class="line"> * <span class="doctag">@author</span> crystal</div><div class="line"> */</div><div class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersistenceSender</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">       <span class="comment">//创建一个JMS connection factory</span></div><div class="line">       ConnectionFactory connectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(<span class="string">"tcp://192.168.1.81:61616"</span>);</div><div class="line">        <span class="comment">//通过connection factory来创建JMS connection</span></div><div class="line">        Connection connection = connectionFactory.createConnection();</div><div class="line">       <span class="comment">//通过connection创建JMS session</span></div><div class="line">        Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);</div><div class="line">       <span class="comment">//创建JMS destination</span></div><div class="line">       Destination destination = session.createTopic(<span class="string">"PersistenceTopic"</span>);</div><div class="line">        <span class="comment">//创建JMS producer</span></div><div class="line">       MessageProducer producer = session.createProducer(destination);</div><div class="line">       producer.setDeliveryMode(DeliveryMode.PERSISTENT);</div><div class="line">       <span class="comment">//启动JMS connection</span></div><div class="line">       connection.start();</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++)&#123;</div><div class="line">            TextMessage message = session.createTextMessage(<span class="string">"message-"</span>+i);</div><div class="line">            <span class="comment">//发送message</span></div><div class="line">          producer.send(message);</div><div class="line">       &#125;</div><div class="line">       <span class="comment">//关闭所有的JMS资源</span></div><div class="line">        session.commit();</div><div class="line">        session.close();</div><div class="line">        connection.close();</div><div class="line">   &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="3-2-消息接收程序"><a href="#3-2-消息接收程序" class="headerlink" title="3.2 消息接收程序"></a>3.2 消息接收程序</h3><blockquote>
+<p>对于持久的Topic消息的接收方需要注意以下几点:</p>
+<blockquote>
+<p>a.需要在连接上设置消费者id,用来识别消费者</p>
+<p>b.需要创建TopicSubscriber来订阅</p>
+<p>c.一定要先运行一次该消费者程序，等于向消费服务中间件注册这个消费者，然后再运行消息发送者来发送消息，这样的话，无论消费者是否在线都会收到消息，如果不在线的话，则下次连接的时候会把没有收过的消息都接收下来。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.jms.Connection;</div><div class="line"><span class="keyword">import</span> javax.jms.ConnectionFactory;</div><div class="line"><span class="keyword">import</span> javax.jms.Message;</div><div class="line"><span class="keyword">import</span> javax.jms.Session;</div><div class="line"><span class="keyword">import</span> javax.jms.TextMessage;</div><div class="line"><span class="keyword">import</span> javax.jms.Topic;</div><div class="line"><span class="keyword">import</span> javax.jms.TopicSubscriber;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.activemq.ActiveMQConnectionFactory;</div><div class="line"></div><div class="line"> <span class="comment">/**</span></div><div class="line"> * 持久化Topic消息接收者</div><div class="line"> * <span class="doctag">@author</span> crystal</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersistenceReceiver</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">       <span class="comment">//创建一个JMS connection factory</span></div><div class="line">        ConnectionFactory connectionFactory = <span class="keyword">new</span> ActiveMQConnectionFactory(<span class="string">"tcp://120.76.123.81:61616"</span>);</div><div class="line">       <span class="comment">//通过connection factory来创建JMS connection</span></div><div class="line">       Connection connection = connectionFactory.createConnection();</div><div class="line">       connection.setClientID(<span class="string">"con1"</span>);</div><div class="line">       <span class="comment">//通过connection创建JMS session</span></div><div class="line">        Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);</div><div class="line">        <span class="comment">//创建JMS destination</span></div><div class="line">        Topic destination = session.createTopic(<span class="string">"PersistenceTopic"</span>);</div><div class="line">       <span class="comment">//创建JMS consumer</span></div><div class="line">        TopicSubscriber ts = session.createDurableSubscriber(destination, <span class="string">"TT"</span>);</div><div class="line">       <span class="comment">//启动JMS connection</span></div><div class="line">        connection.start();</div><div class="line">       Message message = ts.receive();</div><div class="line">       <span class="keyword">while</span>(message != <span class="keyword">null</span>)&#123;</div><div class="line">            TextMessage txtMsg = (TextMessage)message;</div><div class="line">            session.commit();</div><div class="line">            System.out.println(<span class="string">"收到消息:"</span>+txtMsg.getText());</div><div class="line">            message = ts.receive(<span class="number">1000L</span>);</div><div class="line">        &#125;</div><div class="line">       <span class="comment">//关闭所有的JMS资源</span></div><div class="line">        session.close();</div><div class="line">        connection.close();</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h2 id="4-关于持久化和非持久化消息"><a href="#4-关于持久化和非持久化消息" class="headerlink" title="4. 关于持久化和非持久化消息"></a>4. 关于持久化和非持久化消息</h2><h3 id="4-1-有两种方式指定传送模式"><a href="#4-1-有两种方式指定传送模式" class="headerlink" title="4.1 有两种方式指定传送模式:"></a>4.1 有两种方式指定传送模式:</h3><blockquote>
+<p> (1) 使用setDeliveryMode方法，这样所有的消息都采用此传送模式;如producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT)</p>
+<p>(2) 使用send方法为每条消息设置传送模式</p>
+</blockquote>
+<h3 id="4-2-持久化消息"><a href="#4-2-持久化消息" class="headerlink" title="4.2 持久化消息"></a>4.2 持久化消息</h3><blockquote>
+<p>这是ActiveMQ的默认传送模式,此模式保证这些消息只被传送一次和成功使用一次。对于这些消息，可靠性是优先考虑的因素。可靠性的另一个重要方面是确保持久性消息传送至目标后，消息服务在向消费者传送它们之前不会丢失这些消息。</p>
+<p>这意味着在持久性消息传送至目标时，消息服务将其放入持久性数据存储。如果消息服务由于某种原因导致失败，它可以恢复此消息并将此消息传送至相应的消费者。虽然这样增加了消息传送的开销，但是却增加了可靠性。</p>
+</blockquote>
+<h3 id="4-3-非持久化消息"><a href="#4-3-非持久化消息" class="headerlink" title="4.3 非持久化消息"></a>4.3 非持久化消息</h3><blockquote>
+<p>保证这些消息最多被传送一次。对于这些消息，可靠性并非主要的考虑因素。此模式并不要求持久性的数据存储，也不保证消息服务由于某种原因导致失败后消息不会丢失。</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSM开发步骤/">JSM开发步骤</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Topic/">Topic</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/持久化消息/">持久化消息</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/非持久化消息/">非持久化消息</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/ActiveMQ/">ActiveMQ</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/01/06/JMS开发步骤和持久化-非持久化Topic消息/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-Java异常处理注意事项" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/06/Java异常处理注意事项/">Java异常处理注意事项</a>
+    </h1>
+  
+
+        <a href="/2017/01/06/Java异常处理注意事项/" class="archive-article-date">
+  	<time datetime="2017-01-06T05:24:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-06</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-包装运行时异常为自定义运行时异常"><a href="#1-包装运行时异常为自定义运行时异常" class="headerlink" title="1. 包装运行时异常为自定义运行时异常"></a>1. 包装运行时异常为自定义运行时异常</h2><blockquote>
+<p>把系统运行时异常包装为自定义运行时异常抛出时，要把异常栈也一起抛出去。</p>
+</blockquote>
+<p>示例代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionMethod</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// throw a NullPointerException</span></div><div class="line">        &#125;<span class="keyword">catch</span> (NullPointerException nullException) &#123;</div><div class="line">            logger.error(<span class="string">""</span>, nullException);     </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AssetAccException(ErrorCodeEnum.FILE_DOWNLOAD_FAIL, nullException);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            exceptionMethod();</div><div class="line">        &#125; <span class="keyword">catch</span>(AssetAccException exception) &#123;</div><div class="line">            <span class="comment">// 打印异常栈信息到日志</span></div><div class="line">            LOGGER.err(exception);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AssetAccException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AssetAccException</span><span class="params">(ErrorCodeEnum errorEnum, Throwable cause)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(message, cause);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="2-私有、公有方法抛出的异常怎么处理"><a href="#2-私有、公有方法抛出的异常怎么处理" class="headerlink" title="2. 私有、公有方法抛出的异常怎么处理"></a>2. 私有、公有方法抛出的异常怎么处理</h2><blockquote>
+<p>(1) 私有方法抛出的异常，一般都需要抛出到上层调用方法中<br>(2) 公有方法抛出的异常，要么自己处理，要么抛出到上层调用方法中</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java异常处理/">java异常处理</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/java/">java</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/01/06/Java异常处理注意事项/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-java文件处理注意点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/06/java文件处理注意点/">java文件处理注意点</a>
+    </h1>
+  
+
+        <a href="/2017/01/06/java文件处理注意点/" class="archive-article-date">
+  	<time datetime="2017-01-06T05:15:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-06</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-文件处理时不要反复打开关闭流"><a href="#1-文件处理时不要反复打开关闭流" class="headerlink" title="1. 文件处理时不要反复打开关闭流"></a>1. 文件处理时不要反复打开关闭流</h2><blockquote>
+<p>(1) 使用java 写文件时，只要第一次打开文件流，之后都使用这个流进行写操作，然后flush即可。<br>(2) 使用java 操作流时，可以使用IOUtils.quitelyClose()进行静默关闭流，这样就不用处理一堆IO异常啦。</p>
+</blockquote>
+<h2 id="2-读文件时先打开一个流，再一行一行读"><a href="#2-读文件时先打开一个流，再一行一行读" class="headerlink" title="2. 读文件时先打开一个流，再一行一行读"></a>2. 读文件时先打开一个流，再一行一行读</h2><blockquote>
+<p>(1) 使用java 读文件时， 只要第一次打开文件流，之后都使用这个流进行读操作即可。<br>(2) 不要使用Guava的Files.readLines()一次把所有文件内容都读到一个List<string>中，这样会占用很多内存空间。</string></p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java文件处理/">Java文件处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java流处理/">Java流处理</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/java流处理/">java流处理</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/01/06/java文件处理注意点/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-MySQL锁学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/05/MySQL锁学习笔记/">MySQL锁学习笔记</a>
+    </h1>
+  
+
+        <a href="/2017/01/05/MySQL锁学习笔记/" class="archive-article-date">
+  	<time datetime="2017-01-05T06:57:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-05</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##1. Mysql锁概述</p>
+<h3 id="1-1-MySQL锁机制"><a href="#1-1-MySQL锁机制" class="headerlink" title="1.1 MySQL锁机制"></a>1.1 MySQL锁机制</h3><blockquote>
+<p>MySQL锁机制比较简单，其显著的特点是不同的存储引擎支持不同的锁机制。<br>MyISAM 和 MEMORY 存储引擎刺痛的是表级锁(table-level)。<br>BDB存储引擎采用的是页面锁(page-level locking), 但也支持表级锁。<br>InnoDB存储引擎既支持行级锁(row-level locking), 也支持表级锁但默认情况下采用行级锁。</p>
+</blockquote>
+<h3 id="1-2-MySQL三种锁的特性"><a href="#1-2-MySQL三种锁的特性" class="headerlink" title="1.2 MySQL三种锁的特性"></a>1.2 MySQL三种锁的特性</h3><ul>
+<li>表级锁: 开销小，加锁快； 不会出现死锁；锁定粒度大，发生锁冲突的概率最高， 并发度最低。</li>
+<li>行级锁: 开销大，加锁慢；会出现死锁；锁定粒度小，发生锁冲突的概率最低，并发度也最高。</li>
+<li>页面锁: 开销和加锁时间介于表锁和行锁之间； 会出现死锁；锁定粒度介于表锁和行锁之间，并发度一般。</li>
+</ul>
+<h3 id="1-3-锁的选择"><a href="#1-3-锁的选择" class="headerlink" title="1.3 锁的选择"></a>1.3 锁的选择</h3><blockquote>
+<p>从三种锁的特性很难直接说哪种锁更好，只能就具体应用的特点来说哪种锁更合适!<br>仅从锁的角度来说：</p>
+<blockquote>
+<p>(1) 行级锁更适合于以查询为主，只有少量按索引条件更新数据的应用，如Web应用。<br>(2)行级锁更适合于有大量按索引条件并发更新少量不同数据，同时又有并发查询的应用，如一些在线事务处理(OLTP)系统。</p>
+</blockquote>
+</blockquote>
+<h2 id="2-MyISAM表锁"><a href="#2-MyISAM表锁" class="headerlink" title="2. MyISAM表锁"></a>2. MyISAM表锁</h2><p>###2.1 查询表级锁争用情况</p>
+<blockquote>
+<p>可以通过检查table_lock_waited和table_locks_immediate状态变量来分析系统上的表锁定争夺,如下图所示。<br>如果table_lock_waited的值比较高，则说明存在着较严重的表级锁争用情况。</p>
+</blockquote>
+<p><img src="/img/查询表级锁争用情况.png" alt="查询表级锁争用"></p>
+<p>###2.2 MySQL表级锁的锁模式</p>
+<blockquote>
+<p>MySQL的表级锁有两种模式: 表共享读锁(Table Read Lock) 和表独占写锁(Table Write Lock)。</p>
+</blockquote>
+<p>锁模式的兼容性如下表所示:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">当前锁模式</th>
+<th style="text-align:center">请求锁模式</th>
+<th style="text-align:center">是否兼容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">读锁</td>
+<td style="text-align:center">None</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">读锁</td>
+<td style="text-align:center">读锁</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">读锁</td>
+<td style="text-align:center">写锁</td>
+<td style="text-align:center">否</td>
+</tr>
+<tr>
+<td style="text-align:center">写锁</td>
+<td style="text-align:center">None</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">写锁</td>
+<td style="text-align:center">读锁</td>
+<td style="text-align:center">否</td>
+</tr>
+<tr>
+<td style="text-align:center">写锁</td>
+<td style="text-align:center">写锁</td>
+<td style="text-align:center">否</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>（1）可见，对MyISAM表的读操作，不会阻塞其他用户对同一表的读请求，但会阻塞对同一个表的写请求；<br>（2）对MyISAM表的写操作，则会阻塞其他用户对同一表的读和写操作；<br>（3）MyISAM表的读操作与写操作之间，以及写操作之间是串行的!<br>（4）当一个线程获得对一个表的写锁后，只有持有锁的线程可以对表进行更新操作。其他线程的读、写操作都会等待，直到锁被释放为止。</p>
+</blockquote>
+<h3 id="2-3-MySQL如何加表锁"><a href="#2-3-MySQL如何加表锁" class="headerlink" title="2.3 MySQL如何加表锁"></a>2.3 MySQL如何加表锁</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQL锁/">MYSQL锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/行级锁/">行级锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/表级锁/">表级锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/页面锁/">页面锁</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/01/05/MySQL锁学习笔记/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-Redis-命令学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -479,434 +852,9 @@
 
 
   
-    <article id="post-同步屏障CyclicBarrier" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/02/同步屏障CyclicBarrier/">同步屏障CyclicBarrier</a>
-    </h1>
-  
-
-        <a href="/2017/01/02/同步屏障CyclicBarrier/" class="archive-article-date">
-  	<time datetime="2017-01-02T10:39:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-02</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-CyclicBarrier介绍"><a href="#1-CyclicBarrier介绍" class="headerlink" title="1. CyclicBarrier介绍"></a>1. CyclicBarrier介绍</h2><blockquote>
-<p>CyclicBarrier的字面意思是可循环使用(Cyclic)的屏障(Barrier)。</p>
-<blockquote>
-<p>它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续运行。</p>
-</blockquote>
-</blockquote>
-<h2 id="2-CyclicBarrier使用"><a href="#2-CyclicBarrier使用" class="headerlink" title="2. CyclicBarrier使用"></a>2. CyclicBarrier使用</h2><blockquote>
-<p>CyclicBarrier默认的构造方法是CyclicBarrier(int parties）,其参数表示屏障拦截的线程数量，每个线程调用await()方法告诉CyclicBarrier我已经到达屏障，然后当前线程被阻塞。</p>
-</blockquote>
-<h2 id="3-CyclicBarrier实例一"><a href="#3-CyclicBarrier实例一" class="headerlink" title="3. CyclicBarrier实例一"></a>3. CyclicBarrier实例一</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CyclicBarrierTest</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> CyclicBarrier cyclicBarrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">2</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Thread(()-&gt; &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                cyclicBarrier.await();</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="number">1</span>);</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            cyclicBarrier.await();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="number">2</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>因为主线程和子线程的调度是由CPU决定的，两个线程都有可能先执行，所以会产生两种输出:</p>
-</blockquote>
-<ul>
-<li>第一种输出:2 1</li>
-<li>第二种输出:1 2 </li>
-</ul>
-<blockquote>
-<p>如果把new CyclicBarrier(2)改为new CyclicBarrier(3)， 则主线程和子线程会永远等待，因为没有第三个线程执行await()方法，即没有第三个线程到达屏障，所以之前到达屏障的两个线程都不会继续。</p>
-</blockquote>
-<h2 id="4-CyclicBarrier实例二"><a href="#4-CyclicBarrier实例二" class="headerlink" title="4. CyclicBarrier实例二"></a>4. CyclicBarrier实例二</h2><blockquote>
-<p>CyclicBarrier 还提供了一个更高级的构造函数CyclicBarrier(int parties, Runnable barrier-Action), 用于在线程到达屏障时，优先执行barrierAction, 方便处理更复杂的业务场景。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CyclicBarrierTest2</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> CyclicBarrier cyclicBarrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">2</span>, <span class="keyword">new</span> A());</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                cyclicBarrier.await();</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="number">1</span>);</div><div class="line">        &#125;).start();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            cyclicBarrier.await();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="number">2</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            System.out.println(<span class="number">3</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>因为CyclicBarrier 设置了拦截线程的数量是2，所以必须等代码中的第一个线程和线程A都执行完之后，才会继续执行主线程，然后输出2，所以代码执行后的输出一直为: 3 1 2</p>
-</blockquote>
-<h2 id="4-CyclicBarrier的应用场景"><a href="#4-CyclicBarrier的应用场景" class="headerlink" title="4.CyclicBarrier的应用场景"></a>4.CyclicBarrier的应用场景</h2><blockquote>
-<p>CyclicBarrier可以用于多线程计算数据，最后合并计算结果的场景。例如，用一个excel 保存了用户所有银行流水，每个sheet保存一个帐号近一年的每笔流水，现在要统计用户的日均银行流水，先用多线程处理每个sheet里的银行流水，都执行完后，得到每个sheet的日均银行流水，最后，再用barrier用这些线程的计算结果，计算出整个Excel的日均银行流水。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BankWaterService</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建4个屏障,处理完后执行当前类的run方法</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> CyclicBarrier cyclicBarrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">4</span>, <span class="keyword">this</span>);</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 假设只有4个sheet, 所以只启动4个线程</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> Executor executor = Executors.newFixedThreadPool(<span class="number">4</span>);</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ConcurrentHashMap&lt;String, Integer&gt; sheetBankWaterCount = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">count</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</div><div class="line">            executor.execute(() -&gt; &#123;</div><div class="line">                <span class="comment">// 计算当前sheet的银流数据， 计算代码省略</span></div><div class="line">                sheetBankWaterCount.put(Thread.currentThread().getName(), <span class="number">1</span>);</div><div class="line">                <span class="comment">// 银行流水计算完成，插入一个屏障</span></div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    cyclicBarrier.await();</div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">        <span class="comment">// 汇总每个sheet计算出的结果</span></div><div class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Integer&gt; sheet : sheetBankWaterCount.entrySet()) &#123;</div><div class="line">            result += sheet.getValue();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 将结果输出</span></div><div class="line">        sheetBankWaterCount.put(<span class="string">"result"</span>, result);</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        BankWaterService bankWaterService = <span class="keyword">new</span> BankWaterService();</div><div class="line">        bankWaterService.count();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>使用线程池创建4个线程，分别计算每个sheet里的数据，每个sheet计算结果是1, 再由BankWaterService线程汇总4个sheet计算出的结果，输出为: 4。</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CyclicBarrier/">CyclicBarrier</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java多线程/">Java多线程</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/Java并发/">Java并发</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/01/02/同步屏障CyclicBarrier/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-优化SQL的一般步骤" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/02/优化SQL的一般步骤/">优化SQL的一般步骤</a>
-    </h1>
-  
-
-        <a href="/2017/01/02/优化SQL的一般步骤/" class="archive-article-date">
-  	<time datetime="2017-01-02T05:43:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-02</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-通过show-status-命令了解各种SQL的执行频率"><a href="#1-通过show-status-命令了解各种SQL的执行频率" class="headerlink" title="1. 通过show status 命令了解各种SQL的执行频率"></a>1. 通过show status 命令了解各种SQL的执行频率</h2><p>1.1 MySQL客户端连接成功后，通过show [session|global] status 命令可以提供服务器状态信息 </p>
-<p>1.2 在操作系统上，可以使用mysqladmin extended-status 命令获取这些消息。</p>
-<p>1.3 show [session|global] status可以根据需要加上参数”session” 或者 “global” 来显示session级（<font color="green">当前连接</font>) 的统计结果和global级（<font color="green">自数据库上次启动至今</font>）的统计结果。 不写，则默认为session级。</p>
-<p>1.4 下面的命令显示了当前session中所有统计参数的值<br><img src="/img/show_status命令.png" alt="show status命令"></p>
-<p>1.4.1 Com_xxx表示每个xxx语句的执行次数,我们通常比较关系的统计参数如下</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">字段</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Com_select</td>
-<td style="text-align:center">执行select操作的次数，一次查询只累加1</td>
-</tr>
-<tr>
-<td style="text-align:center">Com_insert</td>
-<td style="text-align:center">执行insert操作的次数，对于批量插入的INSERT操作，只累加一次</td>
-</tr>
-<tr>
-<td style="text-align:center">Com_update</td>
-<td style="text-align:center">执行update操作的次数</td>
-</tr>
-<tr>
-<td style="text-align:center">Com_delete</td>
-<td style="text-align:center">执行delete操作的次数</td>
-</tr>
-</tbody>
-</table>
-<p>备注：<font color="cyan">上面这些参数对于所有存储引擎的表操作都会进行累计。</font> </p>
-<p> 1.4.2 下面这几个参数只是针对InnoDB存储引擎的</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">字段</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Innodb_rows_read</td>
-<td style="text-align:center">select查询返回的行数</td>
-</tr>
-<tr>
-<td style="text-align:center">Innodb_inserted</td>
-<td style="text-align:center">执行Insert操作插入的行数</td>
-</tr>
-<tr>
-<td style="text-align:center">Innodb_updated</td>
-<td style="text-align:center">执行Updated操作更新的行数</td>
-</tr>
-<tr>
-<td style="text-align:center">Innodb_deleted</td>
-<td style="text-align:center">执行Deleted操作删除的行数</td>
-</tr>
-</tbody>
-</table>
-<p>备注：   <font color="cyan">（1）通过以上几个参数，可以很容易了解当前数据库的应用是以插入为主还是以查询操作为主，以及各类SQL大致的执行比例</font><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <font color="cyan">（2）对于更新操作的计数，是对执行次数的计数，不论提交还是回滚都会进行累加</font></p>
-<p> 1.4.3 对于事务型的应用，通过Com_commit和Com_rollback可以了解事务提交和回滚的情况,对于回滚操作非常频繁的数据库，可能意味着应用编写存在问题</p>
-<p> 1.4.4 了解数据库基本情况的几个参数</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">字段</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Connections</td>
-<td style="text-align:center">试图连接MySQL服务器的次数</td>
-</tr>
-<tr>
-<td style="text-align:center">Uptime</td>
-<td style="text-align:center">服务器工作时间</td>
-</tr>
-<tr>
-<td style="text-align:center">Slow_queries</td>
-<td style="text-align:center">慢查询的次数</td>
-</tr>
-</tbody>
-</table>
-<h2 id="2-定位执行效率较低的SQL"><a href="#2-定位执行效率较低的SQL" class="headerlink" title="2. 定位执行效率较低的SQL"></a>2. 定位执行效率较低的SQL</h2><p><strong><em>可以通过以下两种方式定位执行效率较低的SQL：</em></strong></p>
-<ul>
-<li>通过慢查询日志定位那些执行效率较低的SQL语句，用–log-slow-queries[=file_name]选项启动时，mysqld写一个包含所有执行时间超过long_query_time秒的SQL语句的日志文件。</li>
-<li>慢查询日志在查询以后才记录，所以在应用反映执行效率出现问题的时候查询慢查询日志并不能定位问题，可以使用<code>show processlist</code>命令查看当前MYSQL在运行的线程，包括线程的状态、是否锁表等，可以实时地查看SQL的执行情况，同时对一些锁表操作进行优化。</li>
-</ul>
-<h2 id="3-通过EXPLAIN分析低效SQL的执行计划"><a href="#3-通过EXPLAIN分析低效SQL的执行计划" class="headerlink" title="3. 通过EXPLAIN分析低效SQL的执行计划"></a>3. 通过EXPLAIN分析低效SQL的执行计划</h2><p>3.1 查询到效率低的SQL后，可以通过EXPLAIN或者DESC命令获取MYSQL如何执行SELECT语句的信息,包括在SELECT语句执行过程中，表如何连接和连接的顺序</p>
-<p>3.2 如果想查询2006年所有公司的销售额，需要管理sales表和company表，并且对moneys字段做求和(sum)操作，相应SQL的执行计划如下:<br><img src="/img/explain分析低效SQL.png" alt="explain执行计划例子"></p>
-<p>3.3 每个列的简单解析如下</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">字段</th>
-<th style="text-align:left">含义</th>
-<th style="text-align:center">备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">select_type</td>
-<td style="text-align:left">表示SELECT的类型，常见的取值有：<br>1. SIMPLE(简单表，即不使用表连接或子查询)<br>2. PRIMARY(主查询，即外部的查询)<br>3. UNION (UNION中的第二个或者后面的查询语句)<br>4. SUBQUERY(子查询中的第一个SELECT)<br></td>
-<td style="text-align:center">这里只列出主要的</td>
-</tr>
-<tr>
-<td style="text-align:center">table</td>
-<td style="text-align:left">输出结果集的表</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">type</td>
-<td style="text-align:left">表示表的连接类型,性能由好到差的类型为:<br>1. system(表中仅有一行，即常量表) <br> 2. const(单表中最多有一个匹配行，例如primary key 或者 unique index)<br> 3. eq_ref(对于前面的每一行，在此表中只查询一条记录，简单来说，就是多表连接中使用primary key 或者unique index) <br> 4. ref(与eq_ref类似，区别是多表连接中使用普通的索引)<br> 5. ref_or_null(与ref类似，区别在于条件中包含对NULL的查询) <br> 6. index_merge(索引合并优化) <br> 7. unique_subquery(in 的后面是一个查询主键字段的子查询) <br> 8. index_subquery(与unique_subquery类似，区别在于in的后面是查询非唯一索引字段的子查询) <br> 9. range(单表中的范围查询) <br> 10. index(对于前面的每一行，都通过索引查询来得到数据) <br> 11. all(对于前面的每一行，都通过全表扫描来得到数据)</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">possible_keys</td>
-<td style="text-align:left">表示查询时，可能使用的索引</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">key</td>
-<td style="text-align:left">表示实际使用的索引</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">key_len</td>
-<td style="text-align:left">索引字段的长度</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">rows</td>
-<td style="text-align:left">扫描行的数量</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">Extra</td>
-<td style="text-align:left">执行情况的说明和描述</td>
-</tr>
-</tbody>
-</table>
-<h2 id="4-确定问题，并采取相应的优化措施"><a href="#4-确定问题，并采取相应的优化措施" class="headerlink" title="4. 确定问题，并采取相应的优化措施"></a>4. 确定问题，并采取相应的优化措施</h2><p>4.1 经过以上3个步骤的分析，基本就可以确认问题出现的原因。此时，可以根据情况采取相应的措施，进行优化提高执行的效率</p>
-<p>4.2 在上面的例子中，已经可以确认是对a表的全表扫描导致效率的不理想，那么对a表的year字段创建索引，具体如下:<br><img src="/img/Year字段创建索引.png" alt="Year字段创建索引"></p>
-<p>4.3 重新查看执行计划，如下:<br><img src="/img/改进的explain.png" alt="改进后的explain"></p>
-<p>备注: <font color="green">可以发现建立索引后，对a表的扫描行数明显减少(从1000行减少到1行)， 可见索引可以大大提高数据库访问速度，尤其在表很庞大的时候，这种优势更加明显。</font></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MYSQL服务器状态/">MYSQL服务器状态</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL优化/">SQL优化</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/explain/">explain</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql执行计划/">sql执行计划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/慢查询/">慢查询</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/MYSQL/">MYSQL</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/01/02/优化SQL的一般步骤/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-Swagger学习-一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/30/Swagger学习-一/">Swagger学习(一)</a>
-    </h1>
-  
-
-        <a href="/2016/12/30/Swagger学习-一/" class="archive-article-date">
-  	<time datetime="2016-12-30T08:20:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-30</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-API接口文档自动化生成工具"><a href="#1-API接口文档自动化生成工具" class="headerlink" title="1. API接口文档自动化生成工具"></a>1. API接口文档自动化生成工具</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API接口文档自动化生成工具推荐/">API接口文档自动化生成工具推荐</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swagger/">Swagger</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/Swagger学习系列/">Swagger学习系列</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/30/Swagger学习-一/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-JNDI基础概念" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/23/JNDI基础概念/">JNDI基础概念</a>
-    </h1>
-  
-
-        <a href="/2016/12/23/JNDI基础概念/" class="archive-article-date">
-  	<time datetime="2016-12-23T13:50:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-23</time>
-</a>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-命名服务的相关概念："><a href="#1-命名服务的相关概念：" class="headerlink" title="1. 命名服务的相关概念："></a>1. 命名服务的相关概念：</h3><h4 id="1-1-Naming-Service-命名服务"><a href="#1-1-Naming-Service-命名服务" class="headerlink" title="1.1 Naming Service 命名服务"></a>1.1 Naming Service 命名服务</h4><p>命名服务将名称和对象进行关联，提供通过名称找到对象的操作。<br>例如：DNS系统将计算机名和IP地址进行关联。文件系统将文件名和文件句柄进行关联等等。</p>
-<h4 id="1-2-Name-名称"><a href="#1-2-Name-名称" class="headerlink" title="1.2 Name  名称"></a>1.2 Name  名称</h4><p>要在命名系统中查找对象，需要提供对象的名称。对象的名称是用来标识该对象的易于人理解的名称。<br>例如：文件系统用文件名来标识文件对象。DNS系统用机器名来表示IP地址。</p>
-<h4 id="1-3-Naming-Convention-命名规范"><a href="#1-3-Naming-Convention-命名规范" class="headerlink" title="1.3 Naming Convention 命名规范`"></a>1.3 Naming Convention 命名规范`</h4><p>一个命名系统中的所有名称必须遵循的语法规则称为命名规范。<br>例如：UNIX文件系统的命名规范要求文件名是一个相对于根目录的路径，路径中的每一部分以/分隔。如：/usr/bin。</p>
-<h4 id="1-4-Binding-绑定"><a href="#1-4-Binding-绑定" class="headerlink" title="1.4 Binding 绑定"></a>1.4 Binding 绑定</h4><p>一个名称和一个对象的关联称为一个绑定。<br>例如：文件系统中，文件名绑定到文件。DNS系统中，机器名绑定到IP地址。</p>
-<h4 id="1-5-Reference-引用"><a href="#1-5-Reference-引用" class="headerlink" title="1.5 Reference 引用"></a>1.5 Reference 引用</h4><p>在一些命名服务系统中，系统并不是直接将对象存储在系统中，而是保持对象的引用。引用包含了如何访问实际对象的信息。</p>
-<h4 id="1-6-Address-地址"><a href="#1-6-Address-地址" class="headerlink" title="1.6 Address 地址"></a>1.6 Address 地址</h4><p>引用通常用一个或多个地址(通信端口)来表示。</p>
-<h4 id="1-7-Context-上下文"><a href="#1-7-Context-上下文" class="headerlink" title="1.7 Context 上下文"></a>1.7 Context 上下文</h4><p>一个上下文是一系列名称和对象的绑定的集合。每个上下文都有与之关联的命名规范。一个上下文通常提供一个lookup操作来返回对象，也可能提供绑定，解除绑定，列举绑定名等操作。一个上下文中的名称可以绑定到一个具有相同命名规范的上下文中，称之为子上下文(subcontext)。<br>例如：在文件系统中，/usr是一个Context，/usr/bin是usr的subcontext。</p>
-<h4 id="1-8-Naming-System-命名系统"><a href="#1-8-Naming-System-命名系统" class="headerlink" title="1.8 Naming System 命名系统"></a>1.8 Naming System 命名系统</h4><p>一个相同类型的Context的集合。一个命名系统向客户提供命名服务来执行命名相关的操作。如DNS系统，LDAP系统等。</p>
-<h4 id="1-9-Namespace-名称空间"><a href="#1-9-Namespace-名称空间" class="headerlink" title="1.9 Namespace 名称空间"></a>1.9 Namespace 名称空间</h4><p>一个命名系统的所有名称的集合。<br>例如：文件系统中的名称空间是组成该文件系统的所有文件和目录的名称。</p>
-<p>Atomic Name/Compound Name/Composite Name<br>Atomic Name 原子名称，是一个简单的基本的名称。<br>Compound Name 混合名称，是由多个原子名称一起构成的名称。<br>Composite Name 复合名称，是跨越多个命名系统的名称。<br>例如：一个名称可能是uid=admin,ou=cms,dc=foobar,dc=com/user/bin/jndi，<br>其中，uid=admin,ou=cms,dc=foobar,dc=com/user/bin/jndi是一个复合名称，跨越了两个命名系统LDAP和文件系统，uid=admin,ou=cms,dc=foobar,dc=com和/user/bin/jndi是两个混合名称，<br>uid=admin、ou=cms、dc=foobar分别是原子名称。</p>
-<h3 id="2-目录服务的相关概念"><a href="#2-目录服务的相关概念" class="headerlink" title="2. 目录服务的相关概念"></a>2. 目录服务的相关概念</h3><h4 id="2-1-Directory-Service-目录服务"><a href="#2-1-Directory-Service-目录服务" class="headerlink" title="2.1 Directory Service 目录服务"></a>2.1 Directory Service 目录服务</h4><p>目录服务是命名服务的扩展，除了提供名称和对象的关联，还允许对象具有属性。目录服务中的对象称之为目录对象。目录服务提供创建、添加、删除目录对象以及修改目录对象属性等操作。</p>
-<h4 id="2-2-Attribute-属性"><a href="#2-2-Attribute-属性" class="headerlink" title="2.2 Attribute 属性"></a>2.2 Attribute 属性</h4><p>一个目录对象可以包含属性。一个属性具有一个属性标识符和一系列属性值。<br>例如：一个打印机对象可以包含速度、分辨率等属性。分辨率的属性标识是resolution，属性值可能是300dpi,600dpi等等。</p>
-<h4 id="2-3-Search-Filter-查找过滤器"><a href="#2-3-Search-Filter-查找过滤器" class="headerlink" title="2.3 Search Filter 查找过滤器"></a>2.3 Search Filter 查找过滤器</h4><p>目录服务除了通过名称查找对象的操作，通常还提供通过目录对象的属性来查找对象的操作。这种的查找一般通过规定的表达式来表示，称之为查找过滤器。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JNDI/">JNDI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/命名服务/">命名服务</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/目录服务/">目录服务</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/JNDI基础/">JNDI基础</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/12/23/JNDI基础概念/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -962,11 +910,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">CyclicBarrier和CountDownLatch的区别</a>
+                <a href="javascript:void(0)">CountDownLatch</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">CountDownLatch</a>
+                <a href="javascript:void(0)">CyclicBarrier和CountDownLatch的区别</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -982,7 +930,27 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Spring</a>
+                <a href="javascript:void(0)">JSM开发步骤</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">持久化消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">非持久化消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Topic</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">java异常处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Redis命令</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -994,6 +962,26 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)">MYSQL锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">表级锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">行级锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">页面锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Swagger</a>
               </li>
              
@@ -1002,7 +990,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Redis命令</a>
+                <a href="javascript:void(0)">Java流处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Java文件处理</a>
               </li>
              
               <li class="article-tag-list-item">
