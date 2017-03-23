@@ -152,6 +152,77 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JNDI基础概念" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/JNDI基础概念/">JNDI基础概念</a>
+    </h1>
+  
+
+        <a href="/2016/12/23/JNDI基础概念/" class="archive-article-date">
+  	<time datetime="2016-12-23T13:50:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-23</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-命名服务的相关概念："><a href="#1-命名服务的相关概念：" class="headerlink" title="1. 命名服务的相关概念："></a>1. 命名服务的相关概念：</h3><h4 id="1-1-Naming-Service-命名服务"><a href="#1-1-Naming-Service-命名服务" class="headerlink" title="1.1 Naming Service 命名服务"></a>1.1 Naming Service 命名服务</h4><p>命名服务将名称和对象进行关联，提供通过名称找到对象的操作。<br>例如：DNS系统将计算机名和IP地址进行关联。文件系统将文件名和文件句柄进行关联等等。</p>
+<h4 id="1-2-Name-名称"><a href="#1-2-Name-名称" class="headerlink" title="1.2 Name  名称"></a>1.2 Name  名称</h4><p>要在命名系统中查找对象，需要提供对象的名称。对象的名称是用来标识该对象的易于人理解的名称。<br>例如：文件系统用文件名来标识文件对象。DNS系统用机器名来表示IP地址。</p>
+<h4 id="1-3-Naming-Convention-命名规范"><a href="#1-3-Naming-Convention-命名规范" class="headerlink" title="1.3 Naming Convention 命名规范`"></a>1.3 Naming Convention 命名规范`</h4><p>一个命名系统中的所有名称必须遵循的语法规则称为命名规范。<br>例如：UNIX文件系统的命名规范要求文件名是一个相对于根目录的路径，路径中的每一部分以/分隔。如：/usr/bin。</p>
+<h4 id="1-4-Binding-绑定"><a href="#1-4-Binding-绑定" class="headerlink" title="1.4 Binding 绑定"></a>1.4 Binding 绑定</h4><p>一个名称和一个对象的关联称为一个绑定。<br>例如：文件系统中，文件名绑定到文件。DNS系统中，机器名绑定到IP地址。</p>
+<h4 id="1-5-Reference-引用"><a href="#1-5-Reference-引用" class="headerlink" title="1.5 Reference 引用"></a>1.5 Reference 引用</h4><p>在一些命名服务系统中，系统并不是直接将对象存储在系统中，而是保持对象的引用。引用包含了如何访问实际对象的信息。</p>
+<h4 id="1-6-Address-地址"><a href="#1-6-Address-地址" class="headerlink" title="1.6 Address 地址"></a>1.6 Address 地址</h4><p>引用通常用一个或多个地址(通信端口)来表示。</p>
+<h4 id="1-7-Context-上下文"><a href="#1-7-Context-上下文" class="headerlink" title="1.7 Context 上下文"></a>1.7 Context 上下文</h4><p>一个上下文是一系列名称和对象的绑定的集合。每个上下文都有与之关联的命名规范。一个上下文通常提供一个lookup操作来返回对象，也可能提供绑定，解除绑定，列举绑定名等操作。一个上下文中的名称可以绑定到一个具有相同命名规范的上下文中，称之为子上下文(subcontext)。<br>例如：在文件系统中，/usr是一个Context，/usr/bin是usr的subcontext。</p>
+<h4 id="1-8-Naming-System-命名系统"><a href="#1-8-Naming-System-命名系统" class="headerlink" title="1.8 Naming System 命名系统"></a>1.8 Naming System 命名系统</h4><p>一个相同类型的Context的集合。一个命名系统向客户提供命名服务来执行命名相关的操作。如DNS系统，LDAP系统等。</p>
+<h4 id="1-9-Namespace-名称空间"><a href="#1-9-Namespace-名称空间" class="headerlink" title="1.9 Namespace 名称空间"></a>1.9 Namespace 名称空间</h4><p>一个命名系统的所有名称的集合。<br>例如：文件系统中的名称空间是组成该文件系统的所有文件和目录的名称。</p>
+<p>Atomic Name/Compound Name/Composite Name<br>Atomic Name 原子名称，是一个简单的基本的名称。<br>Compound Name 混合名称，是由多个原子名称一起构成的名称。<br>Composite Name 复合名称，是跨越多个命名系统的名称。<br>例如：一个名称可能是uid=admin,ou=cms,dc=foobar,dc=com/user/bin/jndi，<br>其中，uid=admin,ou=cms,dc=foobar,dc=com/user/bin/jndi是一个复合名称，跨越了两个命名系统LDAP和文件系统，uid=admin,ou=cms,dc=foobar,dc=com和/user/bin/jndi是两个混合名称，<br>uid=admin、ou=cms、dc=foobar分别是原子名称。</p>
+<h3 id="2-目录服务的相关概念"><a href="#2-目录服务的相关概念" class="headerlink" title="2. 目录服务的相关概念"></a>2. 目录服务的相关概念</h3><h4 id="2-1-Directory-Service-目录服务"><a href="#2-1-Directory-Service-目录服务" class="headerlink" title="2.1 Directory Service 目录服务"></a>2.1 Directory Service 目录服务</h4><p>目录服务是命名服务的扩展，除了提供名称和对象的关联，还允许对象具有属性。目录服务中的对象称之为目录对象。目录服务提供创建、添加、删除目录对象以及修改目录对象属性等操作。</p>
+<h4 id="2-2-Attribute-属性"><a href="#2-2-Attribute-属性" class="headerlink" title="2.2 Attribute 属性"></a>2.2 Attribute 属性</h4><p>一个目录对象可以包含属性。一个属性具有一个属性标识符和一系列属性值。<br>例如：一个打印机对象可以包含速度、分辨率等属性。分辨率的属性标识是resolution，属性值可能是300dpi,600dpi等等。</p>
+<h4 id="2-3-Search-Filter-查找过滤器"><a href="#2-3-Search-Filter-查找过滤器" class="headerlink" title="2.3 Search Filter 查找过滤器"></a>2.3 Search Filter 查找过滤器</h4><p>目录服务除了通过名称查找对象的操作，通常还提供通过目录对象的属性来查找对象的操作。这种的查找一般通过规定的表达式来表示，称之为查找过滤器。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JNDI/">JNDI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/命名服务/">命名服务</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/目录服务/">目录服务</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/JNDI基础/">JNDI基础</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/12/23/JNDI基础概念/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-Spring集成J2EE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -551,14 +622,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">apache commons</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">JNDI</a>
               </li>
              
@@ -571,23 +634,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">java异常处理</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">apache commons</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Redis命令</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">Swagger</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)">API接口文档自动化生成工具推荐</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -612,6 +671,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)">Java文件处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Swagger</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">API接口文档自动化生成工具推荐</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -647,11 +718,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">继承</a>
+                <a href="javascript:void(0)">依赖倒转原则</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)">依赖倒转原则</a>
+                <a href="javascript:void(0)">继承</a>
               </li>
              
               <li class="article-tag-list-item">

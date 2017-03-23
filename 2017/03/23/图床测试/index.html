@@ -6,30 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://crystalxiaoou.github.io">
-  <title>Java异常处理注意事项 | Crystal&#39;s Blog</title>
+  <title>图床测试 | Crystal&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1. 包装运行时异常为自定义运行时异常
-把系统运行时异常包装为自定义运行时异常抛出时，要把异常栈也一起抛出去。
-
-示例代码如下:
-123456789101112131415161718192021222324class Example &amp;#123;    public void exceptionMethod() &amp;#123;        try &amp;#123;            // thr">
+  <meta name="description" content="图床测试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java异常处理注意事项">
-<meta property="og:url" content="http://crystalxiaoou.github.io/2017/01/06/Java异常处理注意事项/index.html">
+<meta property="og:title" content="图床测试">
+<meta property="og:url" content="http://crystalxiaoou.github.io/2017/03/23/图床测试/index.html">
 <meta property="og:site_name" content="Crystal's Blog">
-<meta property="og:description" content="1. 包装运行时异常为自定义运行时异常
-把系统运行时异常包装为自定义运行时异常抛出时，要把异常栈也一起抛出去。
-
-示例代码如下:
-123456789101112131415161718192021222324class Example &amp;#123;    public void exceptionMethod() &amp;#123;        try &amp;#123;            // thr">
-<meta property="og:updated_time" content="2017-01-06T05:34:54.000Z">
+<meta property="og:description" content="图床测试">
+<meta property="og:image" content="http://crystalxiaoou.github.io/图床测试/text.png">
+<meta property="og:updated_time" content="2017-03-23T13:46:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java异常处理注意事项">
-<meta name="twitter:description" content="1. 包装运行时异常为自定义运行时异常
-把系统运行时异常包装为自定义运行时异常抛出时，要把异常栈也一起抛出去。
-
-示例代码如下:
-123456789101112131415161718192021222324class Example &amp;#123;    public void exceptionMethod() &amp;#123;        try &amp;#123;            // thr">
+<meta name="twitter:title" content="图床测试">
+<meta name="twitter:description" content="图床测试">
+<meta name="twitter:image" content="http://crystalxiaoou.github.io/图床测试/text.png">
   
     <link rel="alternative" href="/atom.xml" title="Crystal&#39;s Blog" type="application/atom+xml">
   
@@ -163,32 +153,25 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Java异常处理注意事项" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-图床测试" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Java异常处理注意事项
+      图床测试
     </h1>
   
 
-        <a href="/2017/01/06/Java异常处理注意事项/" class="archive-article-date">
-  	<time datetime="2017-01-06T05:24:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-06</time>
+        <a href="/2017/03/23/图床测试/" class="archive-article-date">
+  	<time datetime="2017-03-23T13:31:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-23</time>
 </a>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-包装运行时异常为自定义运行时异常"><a href="#1-包装运行时异常为自定义运行时异常" class="headerlink" title="1. 包装运行时异常为自定义运行时异常"></a>1. 包装运行时异常为自定义运行时异常</h2><blockquote>
-<p>把系统运行时异常包装为自定义运行时异常抛出时，要把异常栈也一起抛出去。</p>
-</blockquote>
-<p>示例代码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionMethod</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// throw a NullPointerException</span></div><div class="line">        &#125;<span class="keyword">catch</span> (NullPointerException nullException) &#123;</div><div class="line">            logger.error(<span class="string">""</span>, nullException);     </div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AssetAccException(ErrorCodeEnum.FILE_DOWNLOAD_FAIL, nullException);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            exceptionMethod();</div><div class="line">        &#125; <span class="keyword">catch</span>(AssetAccException exception) &#123;</div><div class="line">            <span class="comment">// 打印异常栈信息到日志</span></div><div class="line">            LOGGER.err(exception);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AssetAccException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AssetAccException</span><span class="params">(ErrorCodeEnum errorEnum, Throwable cause)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(message, cause);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="2-私有、公有方法抛出的异常怎么处理"><a href="#2-私有、公有方法抛出的异常怎么处理" class="headerlink" title="2. 私有、公有方法抛出的异常怎么处理"></a>2. 私有、公有方法抛出的异常怎么处理</h2><blockquote>
-<p>(1) 私有方法抛出的异常，一般都需要抛出到上层调用方法中<br>(2) 公有方法抛出的异常，要么自己处理，要么抛出到上层调用方法中</p>
-</blockquote>
+        <h3 id="图床测试"><a href="#图床测试" class="headerlink" title="图床测试"></a>图床测试</h3><p><img src="/图床测试/text.png" alt="图片"></p>
 
       
 
@@ -223,17 +206,7 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java异常处理/">java异常处理</a></li></ul>
-	</div>
-
       
-	<div class="article-category tagcloud">
-	<i class="icon-book icon"></i>
-	<a class="article-category-link" href="/categories/java/">java</a>
-	</div>
-
 
       
 
@@ -283,7 +256,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://crystalxiaoou.github.io/2017/01/06/Java异常处理注意事项/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://crystalxiaoou.github.io/2017/03/23/图床测试/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -297,18 +270,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/01/06/JMS开发步骤和持久化-非持久化Topic消息/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          JMS开发步骤和持久化/非持久化Topic消息
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/01/06/java文件处理注意点/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">java文件处理注意点</div>
+    <a href="/2017/03/21/测试/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">测试</div>
       <i class="icon-circle-right"></i>
     </a>
   
