@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://crystalxiaoou.github.io">
+  <title>驾驶舱合并报表job | Crystal&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="光大云付两款产品不在 AMS中维护:
+百富合盈1月170411-001百富合盈1月170411-002
+
+[TOC]
+驾驶舱合并报表job 学习HandleMergeLedgerJob1. execute(ExecutorContext excutorContext)1234567891011121314151617181920212223242526272829303132333435@Over">
+<meta property="og:type" content="article">
+<meta property="og:title" content="驾驶舱合并报表job">
+<meta property="og:url" content="http://crystalxiaoou.github.io/2017/05/09/驾驶舱合并报表Job代码学习/index.html">
+<meta property="og:site_name" content="Crystal's Blog">
+<meta property="og:description" content="光大云付两款产品不在 AMS中维护:
+百富合盈1月170411-001百富合盈1月170411-002
+
+[TOC]
+驾驶舱合并报表job 学习HandleMergeLedgerJob1. execute(ExecutorContext excutorContext)1234567891011121314151617181920212223242526272829303132333435@Over">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006KEb5Ely1ffitwx7jarj30yd06pjwv">
+<meta property="og:updated_time" content="2017-05-12T12:01:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="驾驶舱合并报表job">
+<meta name="twitter:description" content="光大云付两款产品不在 AMS中维护:
+百富合盈1月170411-001百富合盈1月170411-002
+
+[TOC]
+驾驶舱合并报表job 学习HandleMergeLedgerJob1. execute(ExecutorContext excutorContext)1234567891011121314151617181920212223242526272829303132333435@Over">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006KEb5Ely1ffitwx7jarj30yd06pjwv">
+  
+    <link rel="alternative" href="/atom.xml" title="Crystal&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assets/haha.jpeg">
+  
+  <link rel="stylesheet" href="/main.css?v=4.0.0.css">
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/assets/haha.jpeg" class="js-avatar">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Crystal</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">If Not You. Who? If Not Now. When?</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/archives">所有文章</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a data-idx="0" q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a data-idx="1" q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a data-idx="2" q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/crystalxiaoou" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:13671146998@163.com" title="mail"><i class="icon-mail"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-sort"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Crystal</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/assets/haha.jpeg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Crystal</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">If Not You. Who? If Not Now. When?</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        
+		        	<li><a href="/archives/">所有文章</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/crystalxiaoou" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:13671146998@163.com" title="mail"><i class="icon-mail"></i></a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-驾驶舱合并报表Job代码学习" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      驾驶舱合并报表job
+    </h1>
+  
+
+        <a href="/2017/05/09/驾驶舱合并报表Job代码学习/" class="archive-article-date">
+  	<time datetime="2017-05-09T02:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-09</time>
+</a>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>光大云付两款产品不在 AMS中维护:</p>
+<p>百富合盈1月170411-001<br>百富合盈1月170411-002</p>
+<p><img src="https://ws1.sinaimg.cn/large/006KEb5Ely1ffitwx7jarj30yd06pjwv" alt=""></p>
+<p>[TOC]</p>
+<h1 id="驾驶舱合并报表job-学习"><a href="#驾驶舱合并报表job-学习" class="headerlink" title="驾驶舱合并报表job 学习"></a>驾驶舱合并报表job 学习</h1><h2 id="HandleMergeLedgerJob"><a href="#HandleMergeLedgerJob" class="headerlink" title="HandleMergeLedgerJob"></a>HandleMergeLedgerJob</h2><h3 id="1-execute-ExecutorContext-excutorContext"><a href="#1-execute-ExecutorContext-excutorContext" class="headerlink" title="1. execute(ExecutorContext excutorContext)"></a>1. execute(ExecutorContext excutorContext)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(ExecutorContext executorContext)</span> </span>&#123;</div><div class="line">    logger.info(<span class="string">"handleMergerLedgerJob start"</span>);</div><div class="line">    Stopwatch stopwatch = Stopwatch.createStarted();</div><div class="line"></div><div class="line">    <span class="comment">// 统计日期 = 日切日期（日切日期=当日日期） -1</span></div><div class="line">    Date statisticsDate = DateUtils.addDays(dayCutService.load(), -<span class="number">1</span>);</div><div class="line"></div><div class="line">    <span class="comment">// 查询出合并台帐列表</span></div><div class="line">    List&lt;MergeLedger&gt; mergeLedgers = mergeLedgerService</div><div class="line">            <span class="comment">// 开始日期为 统计日期-6,   结束日期为统计日期</span></div><div class="line">            .calcMergeLedger(DateUtils.addDays(statisticsDate, -<span class="number">6</span>), statisticsDate);</div><div class="line"></div><div class="line">    List&lt;ConsolidatedStatement&gt; consolidatedStatements = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (MergeLedger mergeLedger : mergeLedgers) &#123;</div><div class="line">        <span class="comment">// 组装 ConsolidatedStatement</span></div><div class="line">        ConsolidatedStatement consolidatedStatement = <span class="keyword">new</span> ConsolidatedStatement();</div><div class="line">        consolidatedStatement.setStatisticsDate(mergeLedger.getStatisticDate());</div><div class="line">        consolidatedStatement.setStatisticsType(mergeLedger.getStatisticsType().getCode());</div><div class="line">        consolidatedStatement.setStatisticsFactor(mergeLedger.getStatisticsFactor().getCode());</div><div class="line">        consolidatedStatement.setStatisticsObject(mergeLedger.getStatisticsObject().getCode());</div><div class="line">        consolidatedStatement.setSumAmount(mergeLedger</div><div class="line">                .getSumAmount() == <span class="keyword">null</span> ? BigDecimal.ZERO : mergeLedger.getSumAmount());</div><div class="line">        consolidatedStatement.setSumNum(mergeLedger.getSumNum());</div><div class="line">        consolidatedStatement.setDayOfMonth(CommonUtils.getDayOfMonth(statisticsDate));</div><div class="line">        consolidatedStatement.setDayOfWeek(CommonUtils.getDayOfWeek(statisticsDate));</div><div class="line">        consolidatedStatement.setCreatedTime(<span class="keyword">new</span> Date());</div><div class="line">        consolidatedStatement.setUpdatedTime(<span class="keyword">new</span> Date());</div><div class="line">        consolidatedStatements.add(consolidatedStatement);</div><div class="line">    &#125;</div><div class="line">    consolidatedStatementDAO.batchInsert(consolidatedStatements);</div><div class="line"></div><div class="line">    logger.info(<span class="string">"handleMergerLedgerJob end takes: &#123;&#125;"</span>, stopwatch.elapsed(TimeUnit.MILLISECONDS));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="MergeLedgerService"><a href="#MergeLedgerService" class="headerlink" title="MergeLedgerService"></a>MergeLedgerService</h2><h3 id="1-统计合并报表数据-calcMergeLedger"><a href="#1-统计合并报表数据-calcMergeLedger" class="headerlink" title="1. 统计合并报表数据 calcMergeLedger"></a>1. 统计合并报表数据 calcMergeLedger</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 统计合并报表数据</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> startDate 统计开始日</div><div class="line"> * <span class="doctag">@param</span> endDate   统计结束日</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> 合并报表sheet数据</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;MergeLedger&gt; <span class="title">calcMergeLedger</span><span class="params">(Date startDate, Date endDate)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> calcMergeLedger(startDate, endDate, <span class="keyword">false</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/**</span></div><div class="line"> * 统计合并报表数据</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> startDate   统计开始日</div><div class="line"> * <span class="doctag">@param</span> endDate     统计结束日</div><div class="line"> * <span class="doctag">@param</span> billionUnit 是否单位换位为亿（针对报表中的统计数据）</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> 合并报表sheet数据</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;MergeLedger&gt; <span class="title">calcMergeLedger</span><span class="params">(Date startDate, Date endDate, <span class="keyword">boolean</span> billionUnit)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> queryMergeLedger(<span class="keyword">new</span> MergeLedgerServiceContext(startDate, endDate, billionUnit));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeLedgerServiceContext</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Date startDate;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Date endDate;</div><div class="line">    <span class="comment">// 是否是亿元单位</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> billionUnit;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 合并台帐Service上下文</div><div class="line">     **/</div><div class="line">    MergeLedgerServiceContext(Date startDate, Date endDate, <span class="keyword">boolean</span> billionUnit) &#123;</div><div class="line">        <span class="keyword">this</span>.startDate = startDate;</div><div class="line">        <span class="keyword">this</span>.endDate = endDate;</div><div class="line">        <span class="keyword">this</span>.billionUnit = billionUnit;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="2-根据合并报表上下文查询合并报表"><a href="#2-根据合并报表上下文查询合并报表" class="headerlink" title="2. 根据合并报表上下文查询合并报表"></a>2. 根据合并报表上下文查询合并报表</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 统计合并报表数据</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> context 合并报表查询上下文，包含统计开始日、结束日、单位是否换算等信息</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> 合并报表sheet数据</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> List&lt;MergeLedger&gt; <span class="title">queryMergeLedger</span><span class="params">(MergeLedgerServiceContext context)</span> </span>&#123;</div><div class="line">        Date startDate = context.startDate;</div><div class="line">        Date endDate = context.endDate;</div><div class="line"></div><div class="line">        <span class="comment">// 产品台账</span></div><div class="line">        List&lt;ProductLedger&gt; productLedgers = productLedgerService.calcProductLedger(startDate, endDate);</div><div class="line"></div><div class="line">        <span class="comment">// 开放式产品台账</span></div><div class="line">        List&lt;OpenProduct&gt; openProducts = openProductService.calcOpenProduct(startDate, endDate);</div><div class="line"></div><div class="line">        <span class="comment">// 机构借款</span></div><div class="line">        List&lt;InstitutionLoan&gt; institutionLoans = institutionLoanService.calcInstitutionLoan(startDate, endDate);</div><div class="line"></div><div class="line">        <span class="comment">// 投资台账</span></div><div class="line">        List&lt;InvestmentLedger&gt; investmentLedgers = investmentLedgerService.calcInvestmentLedgers(startDate, endDate);</div><div class="line"></div><div class="line">        <span class="comment">// 资产还本付息现金流</span></div><div class="line">        List&lt;AssetRepayFlow&gt; assetRepayFlows = assetRepayFlowService.calcAssetRepayFlow(startDate, endDate);</div><div class="line"></div><div class="line">        List&lt;MergeLedger&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">        <span class="comment">// 产品部分数据</span></div><div class="line">        List&lt;MergeLedger&gt; productPart = calcProductPart(productLedgers, openProducts, institutionLoans, context);</div><div class="line">        result.addAll(productPart);</div><div class="line"></div><div class="line">        <span class="comment">// 投资部分数据</span></div><div class="line">        List&lt;MergeLedger&gt; investmentPart = calcInvestmentPart(investmentLedgers, assetRepayFlows, context);</div><div class="line">        result.addAll(investmentPart);</div><div class="line"></div><div class="line">        <span class="comment">// 综合部分数据</span></div><div class="line">        List&lt;MergeLedger&gt; combination = calcCombination(result, context);</div><div class="line">        result.addAll(combination);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="ProductLedgerService"><a href="#ProductLedgerService" class="headerlink" title="ProductLedgerService"></a>ProductLedgerService</h2><h3 id="1-calcProductLeger-查询产品台帐"><a href="#1-calcProductLeger-查询产品台帐" class="headerlink" title="1. calcProductLeger 查询产品台帐"></a>1. calcProductLeger 查询产品台帐</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;ProductLedger&gt; <span class="title">calcProductLedger</span><span class="params">(Date sStartDate, Date sEndDate)</span> </span>&#123;</div><div class="line">       <span class="comment">// 查询统计日期=结束日期的 产品台帐</span></div><div class="line">       List&lt;ProductLedger&gt; source = queryProductLedgers(sEndDate);</div><div class="line">       <span class="keyword">if</span> (CollectionUtils.isEmpty(source)) &#123;</div><div class="line">           <span class="keyword">return</span> Collections.emptyList();</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; source.size(); index++) &#123;</div><div class="line">           ProductLedger ledger = source.get(index);</div><div class="line">           <span class="comment">// 根据统计开始日和统计结束日计算产品台账部分字段</span></div><div class="line">           calculate(ledger, sStartDate, sEndDate);</div><div class="line">           ledger.setId((<span class="keyword">long</span>) index);</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">return</span> source;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 通过统计日期查询产品台账</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> statisticsDate 统计日期</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> 统计日期的产品台账</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> List&lt;ProductLedger&gt; <span class="title">queryProductLedgers</span><span class="params">(Date statisticsDate)</span> </span>&#123;</div><div class="line">    ProductLedgerCriteria criteria = <span class="keyword">new</span> ProductLedgerCriteria();</div><div class="line">    criteria.createCriteria().andStatisticsDateEqualTo(statisticsDate);</div><div class="line">    <span class="keyword">return</span> productLedgerDAO.selectByExample(criteria);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-calculate-ProductLedger-productLedger-Date-statsDate-Date-statsEndDate"><a href="#2-calculate-ProductLedger-productLedger-Date-statsDate-Date-statsEndDate" class="headerlink" title="2. calculate(ProductLedger productLedger, Date statsDate, Date statsEndDate)"></a>2. calculate(ProductLedger productLedger, Date statsDate, Date statsEndDate)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * 根据统计开始日和统计结束日计算产品台账部分字段</div><div class="line">    *</div><div class="line">    * <span class="doctag">@param</span> productLedger 产品台账</div><div class="line">    * <span class="doctag">@param</span> statsDate     统计开始日</div><div class="line">    * <span class="doctag">@param</span> statsEndDate  统计结束日</div><div class="line">    *</div><div class="line">    * <span class="doctag">@return</span> 根据统计开始日和统计结束日填充产品台账的一些累计与统计字段。</div><div class="line">    */</div><div class="line">   <span class="function"><span class="keyword">public</span> ProductLedger <span class="title">calculate</span><span class="params">(ProductLedger productLedger, Date statsDate, Date statsEndDate)</span> </span>&#123;</div><div class="line"></div><div class="line">       <span class="keyword">if</span> (productLedger == <span class="keyword">null</span>) &#123;</div><div class="line">           <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 累计发行金额  到统计结束日为止，已经发行的产品募集金额</div><div class="line">        */</div><div class="line">        </div><div class="line">       <span class="keyword">if</span> (isTestProduct(productLedger) || (compareDate(productLedger.getProductStartDate(), statsEndDate) &gt; <span class="number">0</span>)) &#123; </div><div class="line">       <span class="comment">// 如果为测试产品，或者产品成立日&gt;统计结束日期，则累计发行金额为0</span></div><div class="line">           productLedger.setTotalIssuedAmount(BigDecimal.ZERO);</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则产品成立日&lt;= 统计结束日， 累计发行金额为 产品实际募集金额</span></div><div class="line">           productLedger.setTotalIssuedAmount(productLedger.getRealRaiseAmount());</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 统计期发行金额 统计期发行的产品金额</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (isTestProduct(productLedger) || (compareDate(productLedger.getProductStartDate(), statsEndDate) &gt; <span class="number">0</span>)</div><div class="line">               || (compareDate(productLedger.getProductStartDate(), statsDate) &lt; <span class="number">0</span>)) &#123; <span class="comment">// 如果为测试产品，或者产品成立日&gt;统计结束日期，则累计发行金额为0 或者 产品成立日&lt;统计开始日期， 则统计期发行金额为0</span></div><div class="line"></div><div class="line">           productLedger.setSdateIssuedAmount(BigDecimal.ZERO);</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则 产品成立日&lt;= 统计结束日 &amp;&amp; 产品成立日 &gt;= 开始统计日期 统计期发行金额为产品实际募集金额</span></div><div class="line">           productLedger.setSdateIssuedAmount(productLedger.getRealRaiseAmount());</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 报告期兑付金额  处于兑付期的产品募集金额</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (isTestProduct(productLedger) || (compareDate(productLedger.getProductDueDate(), statsEndDate) &gt; <span class="number">0</span>)</div><div class="line">               || (compareDate(productLedger.getProductDueDate(), statsDate) &lt; <span class="number">0</span>)) &#123; <span class="comment">// 如果为测试产品， 或者产品到期日 &gt; 统计结束日期 或者 产品到期日 &lt; 统计开始日期， 则报告期兑付金额 为0</span></div><div class="line">           productLedger.setRdateHonorAmount(BigDecimal.ZERO);</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则  产品到期日 &gt;= 统计开始日期  &amp;&amp; 产品到期日 &lt;=统计结束日期  报告期兑付金额为产品实际募集金额</span></div><div class="line">           productLedger.setRdateHonorAmount(productLedger.getRealRaiseAmount());</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 报告期末产品余额, 还处于存续期的产品的  募集金额</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (isTestProduct(productLedger) || (compareDate(productLedger.getProductStartDate(), statsEndDate) &gt; <span class="number">0</span>)</div><div class="line">               || (compareDate(productLedger.getProductDueDate(), statsEndDate) &lt;= <span class="number">0</span>)) &#123; <span class="comment">// 如果为测试产品，或者产品成立日&gt;统计结束日期, 或者产品到期日 &lt;= 统计结束日期， 则报告期末产品余额 为 0</span></div><div class="line">           productLedger.setRdateProductBalance(BigDecimal.ZERO);</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则， 产品成立日 &lt;= 统计结束日期 &lt; 产品到期日  报告期末产品余额 为实际募集金额</span></div><div class="line">     productLedger.setRdateProductBalance(productLedger.getRealRaiseAmount());</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 统计期产品发行支数</div><div class="line">        */</div><div class="line">  <span class="keyword">if</span> (isTestProduct(productLedger) || productLedger.getSdateIssuedAmount().compareTo(BigDecimal.ZERO) == <span class="number">0</span>) &#123;</div><div class="line">  <span class="comment">// 如果为测试产品， 或者 产品统计期发行金额 == 0， 则统计期产品发行支数 为0</span></div><div class="line">           productLedger.setSdateProductIssuedNum(<span class="number">0</span>);</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则为1</span></div><div class="line">           productLedger.setSdateProductIssuedNum(<span class="number">1</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 统计期产品兑付支数</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (isTestProduct(productLedger) || productLedger.getRdateHonorAmount().compareTo(BigDecimal.ZERO) == <span class="number">0</span>) &#123;</div><div class="line">       <span class="comment">// 如果为测试产品， 或者 统计期产品兑付金额 == 0， 则统计期产品兑付支数 为0</span></div><div class="line">           productLedger.setSdateProductHonorNum(<span class="number">0</span>);</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则为1</span></div><div class="line">           productLedger.setSdateProductHonorNum(<span class="number">1</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 统计期产品存续支数</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (isTestProduct(productLedger) || productLedger.getRdateProductBalance().compareTo(BigDecimal.ZERO) == <span class="number">0</span>) &#123;</div><div class="line">         <span class="comment">// 如果为测试产品， 或者 报告期末产品余额 == 0， 则统计期产品存续支数 为0</span></div><div class="line"></div><div class="line">           productLedger.setSdateProductResidualNum(<span class="number">0</span>);</div><div class="line">       &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 否则为1</span></div><div class="line">           productLedger.setSdateProductResidualNum(<span class="number">1</span>);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 产品剩余期限</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (isTestProduct(productLedger)</div><div class="line">               || (compareDate(productLedger.getProductDueDate(), statsEndDate) &lt;= <span class="number">0</span>)) &#123; <span class="comment">// 如果为测试产品，或者 产品到期日 &lt;= 统计结束日期， 则产品剩余期限 = 0</span></div><div class="line">           productLedger.setProductRemainingPeriod(<span class="number">0</span>);</div><div class="line">  &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则 产品剩余期限 = 产品到期日 - 统计结束日期的天数</span></div><div class="line">           productLedger.setProductRemainingPeriod(</div><div class="line">                   DateUtils.betweenTwoDays(statsEndDate, productLedger.getProductDueDate()));</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 统计日客户收益</div><div class="line">        */</div><div class="line">       <span class="keyword">long</span> days = <span class="number">0</span>;</div><div class="line">       <span class="keyword">if</span> ((compareDate(productLedger.getProductDueDate(), statsEndDate) &lt;= <span class="number">0</span>)</div><div class="line">               || (compareDate(productLedger.getProductStartDate(), statsEndDate) &gt; <span class="number">0</span>)) &#123; <span class="comment">// 产品到期日 &lt;= 统计结束日期 OR 产品成立日 &gt; 统计结束日期, 统计期存续期=0</span></div><div class="line">           days = <span class="number">0</span>;</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则 统计期存续期=  统计结束日 - 产品成立日</span></div><div class="line">           days = daysBetween(statsEndDate, productLedger.getProductStartDate()) + <span class="number">1</span>;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">// 统计日客户收益= 统计期存续期 * 产品实际募集金额 * 产品预期收益率 / 365</span></div><div class="line">       BigDecimal var = <span class="keyword">new</span> BigDecimal(days).multiply(productLedger.getRealRaiseAmount())</div><div class="line">               .multiply(productLedger.getExpectedReturn())</div><div class="line">               .divide(ConstantValue.ONE_YEAR_B, <span class="number">2</span>, BigDecimal.ROUND_HALF_UP);</div><div class="line">       productLedger.setSdateCustomerIncome(var);</div><div class="line"></div><div class="line">       <span class="comment">/*</span></div><div class="line">        * 统计日通道费</div><div class="line">        */</div><div class="line">       <span class="keyword">long</span> thisDays = <span class="number">0</span>;</div><div class="line">       <span class="keyword">if</span> ((compareDate(productLedger.getProductDueDate(), statsEndDate) &lt;= <span class="number">0</span>)) &#123;</div><div class="line">       <span class="comment">// 产品到期日 &lt;= 统计结束日, 则统计日 通道存续期 = 产品到期日-产品成立日</span></div><div class="line">           thisDays = daysBetween(productLedger.getProductDueDate(), productLedger.getProductStartDate());</div><div class="line">       &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((compareDate(productLedger.getProductStartDate(), statsEndDate) &lt; <span class="number">0</span>) || (compareDate(</div><div class="line">               productLedger.getProductDueDate(), statsEndDate) == <span class="number">0</span>)) &#123;</div><div class="line">               <span class="comment">// 产品成立日 &lt;= 统计结束日 OR 产品到期日 == 统计结束日 , 则统计日 通道存续期 = 统计结束日-产品成立日 + 1</span></div><div class="line">           thisDays = daysBetween(statsEndDate, productLedger.getProductStartDate()) + <span class="number">1</span>;</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则 统计日 通道存续期 = 0</span></div><div class="line">           thisDays = <span class="number">0</span>;</div><div class="line">       &#125;</div><div class="line">       <span class="comment">// 通道总费率 = 通道1费率 + 通道2费率 + 通道3费率</span></div><div class="line">       BigDecimal totalRate = productLedger.getChannel1Rate().add(productLedger.getChannel2Rate())</div><div class="line">               .add(productLedger.getChannel3Rate());</div><div class="line"></div><div class="line">       <span class="comment">// 通道费 = 统计日通道存续期 * 产品实际募集金额 * 通道总费率 / 365</span></div><div class="line">       BigDecimal channelFee =</div><div class="line">               <span class="keyword">new</span> BigDecimal(thisDays).multiply(productLedger.getRealRaiseAmount()).multiply(totalRate)</div><div class="line">                       .divide(BigDecimal.valueOf(<span class="number">365</span>), <span class="number">2</span>, RoundingMode.HALF_UP);</div><div class="line"></div><div class="line">       <span class="comment">// 设置产品通道费</span></div><div class="line">       productLedger.setSdateChannelFee(channelFee);</div><div class="line"></div><div class="line">       <span class="keyword">return</span> productLedger;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<!-- more -->
+<h2 id="OpenProductService-开放式产品Service"><a href="#OpenProductService-开放式产品Service" class="headerlink" title="OpenProductService 开放式产品Service"></a>OpenProductService 开放式产品Service</h2><h3 id="1-calcOpenProduct-查询开放式产品台帐"><a href="#1-calcOpenProduct-查询开放式产品台帐" class="headerlink" title="1. calcOpenProduct 查询开放式产品台帐"></a>1. calcOpenProduct 查询开放式产品台帐</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;OpenProduct&gt; <span class="title">calcOpenProduct</span><span class="params">(Date sStartDate, Date sEndDate)</span> </span>&#123;</div><div class="line">       List&lt;OpenProduct&gt; src = getOpenProducts(sEndDate);</div><div class="line">       <span class="keyword">long</span> index = <span class="number">1</span>;</div><div class="line"></div><div class="line">       <span class="keyword">if</span> (src == <span class="keyword">null</span> || src.size() == <span class="number">0</span>) &#123;</div><div class="line">           <span class="keyword">return</span> src;</div><div class="line">       &#125;</div><div class="line">       List&lt;OpenProduct&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">       <span class="keyword">for</span> (OpenProduct openProduct : src) &#123;</div><div class="line">           OpenProduct op = calculate(openProduct, sStartDate, sEndDate);</div><div class="line">           op.setId(index);</div><div class="line">           index ++;</div><div class="line">           results.add(op);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> results;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="2-根据结束日期查询-统计日期-lt-结束日期的-开放式产品台帐"><a href="#2-根据结束日期查询-统计日期-lt-结束日期的-开放式产品台帐" class="headerlink" title="2. 根据结束日期查询 统计日期&lt;= 结束日期的 开放式产品台帐"></a>2. 根据结束日期查询 统计日期&lt;= 结束日期的 开放式产品台帐</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> List&lt;OpenProduct&gt; <span class="title">getOpenProducts</span><span class="params">(Date statisticsDate)</span> </span>&#123;</div><div class="line">        OpenProductCriteria criteria = <span class="keyword">new</span> OpenProductCriteria();</div><div class="line">        criteria.createCriteria().andStatisticsDateLessThanOrEqualTo(statisticsDate);</div><div class="line">        openProducts = openProductDAO.selectByExample(criteria);</div><div class="line">        <span class="keyword">return</span> openProducts;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="3-计算开放式产品台帐的一些累计字段"><a href="#3-计算开放式产品台帐的一些累计字段" class="headerlink" title="3. 计算开放式产品台帐的一些累计字段"></a>3. 计算开放式产品台帐的一些累计字段</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> OpenProduct <span class="title">calculate</span><span class="params">(OpenProduct openProduct, Date sStartDate, Date sEndDate)</span> </span>&#123;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 累计产品发行金额-个人客户 已申购的金额 </div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)) &#123;</div><div class="line">           <span class="comment">// 开放式产品统计日期 &lt;= 统计结束日，则 累计产品发行金额-个人客户 = 个人客户当日申购金额</span></div><div class="line">           openProduct.setPersonalTotalIssuedAmount(openProduct.getPersonalCurrentPurchase());</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则 累计产品发行金额-个人客户 = 0</span></div><div class="line">           openProduct.setPersonalTotalIssuedAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 累计产品发行金额-对公客户</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)) &#123;</div><div class="line">           <span class="comment">// 开放式产品统计日期 &lt;= 统计结束日，则 累计产品发行金额-对公客户 = 对公客户当日申购金额</span></div><div class="line"></div><div class="line">           openProduct.setInstitutionTotalIssuedAmount(openProduct.getInstitutionCurrentPurchase());</div><div class="line">  &#125; <span class="keyword">else</span> &#123;<span class="comment">// 否则 累计产品发行金额-对公客户 = 0</span></div><div class="line"></div><div class="line">           openProduct.setInstitutionTotalIssuedAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 累计产品发行金额-同业客户</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)) &#123;</div><div class="line">           <span class="comment">// 开放式产品统计日期 &lt;= 统计结束日，则 累计产品发行金额-同业客户 = 同业客户当日申购金额</span></div><div class="line"></div><div class="line">           openProduct.setPeerTotalIssuedAmount(openProduct.getPeerCurrentPurchase());</div><div class="line">       &#125; <span class="keyword">else</span> &#123;<span class="comment">// 否则 累计产品发行金额-同业客户 = 0</span></div><div class="line">           openProduct.setPeerTotalIssuedAmount(BigDecimal.ZERO);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 报告期产品发行金额-个人客户  </div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)</div><div class="line">                   &amp;&amp; startDateGEStatisticStartDate(openProduct, sStartDate)) &#123;</div><div class="line">           <span class="comment">// 统计开始日期 &lt;= 产品统计日期 &lt;= 统计结束日期， 则报告期产品发行金额（个人客户) = 个人客户当日申购金额</span></div><div class="line">           openProduct.setPersonalSdateIssuedAmount(openProduct.getPersonalCurrentPurchase());</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则， 报告期产品发行金额（个人客户)  = 0</span></div><div class="line">           openProduct.setPersonalSdateIssuedAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 报告期产品发行金额-对公客户</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)</div><div class="line">                   &amp;&amp; startDateGEStatisticStartDate(openProduct, sStartDate)) &#123;</div><div class="line">           <span class="comment">// 统计开始日期 &lt;= 产品统计日期 &lt;= 统计结束日期， 则报告期产品发行金额（对公客户) = 对公客户当日申购金额</span></div><div class="line">           openProduct.setInstitutionSdateIssuedAmount(openProduct.getInstitutionCurrentPurchase());</div><div class="line">       &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 报告期产品发行金额（对公客户)  = 0</span></div><div class="line">           openProduct.setInstitutionSdateIssuedAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 报告期产品发行金额-同业客户</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)</div><div class="line">                   &amp;&amp; startDateGEStatisticStartDate(openProduct, sStartDate)) &#123;</div><div class="line">           <span class="comment">// 统计开始日期 &lt;= 产品统计日期 &lt;= 统计结束日期， 则报告期产品发行金额（同业客户) = 同业客户当日申购金额</span></div><div class="line">           openProduct.setPeerSdateIssuedAmount(openProduct.getPeerCurrentPurchase());</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 报告期产品发行金额（同业客户)  = 0</span></div><div class="line">           openProduct.setPeerSdateIssuedAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 报告期产品兑付金额-个人客户 </div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)</div><div class="line">                   &amp;&amp; startDateGEStatisticStartDate(openProduct, sStartDate)) &#123;</div><div class="line">           <span class="comment">//  统计开始日期 &lt;= 产品统计日期 &lt;= 统计结束日期， 则报告期产品兑付金额(个人客户) = 当日赎回（个人客户）</span></div><div class="line">           openProduct.setPersonalSdateHonorAmount(openProduct.getPersonalCurrentRedemption());</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 报告期产品兑付金额(个人客户) = 0</span></div><div class="line">           openProduct.setPersonalSdateHonorAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 报告期产品兑付金额-对公客户</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)</div><div class="line">                   &amp;&amp; startDateGEStatisticStartDate(openProduct, sStartDate)) &#123;</div><div class="line">            <span class="comment">//  统计开始日期 &lt;= 产品统计日期 &lt;= 统计结束日期， 则报告期产品兑付金额(对公客户) = 当日赎回（对公客户）</span></div><div class="line">            openProduct.setInstitutionSdateHonorAmount(openProduct.getInstitutionCurrentRedemption());</div><div class="line">       &#125; <span class="keyword">else</span> &#123; <span class="comment">// 报告期产品兑付金额(对公客户) = 0</span></div><div class="line">           openProduct.setInstitutionSdateHonorAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 报告期产品对付金额-同业客户</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)</div><div class="line">                   &amp;&amp; startDateGEStatisticStartDate(openProduct, sStartDate)) &#123;</div><div class="line">           <span class="comment">//  统计开始日期 &lt;= 产品统计日期 &lt;= 统计结束日期， 则报告期产品兑付金额(同业客户) = 当日赎回（同业客户）</span></div><div class="line">           openProduct.setPeerSdateHonorAmount(openProduct.getPeerCurrentRedemption());</div><div class="line">  &#125; <span class="keyword">else</span> &#123; <span class="comment">// 报告期产品兑付金额(同业客户) = 0</span></div><div class="line">           openProduct.setPeerSdateHonorAmount(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="comment">/**</span></div><div class="line">        * 统计日通道费</div><div class="line">        */</div><div class="line">       <span class="keyword">if</span> (startDateLEStatisticEndDate(openProduct, sEndDate)) &#123;</div><div class="line">           <span class="comment">// 产品统计日 &lt;= 统计结束日期</span></div><div class="line">           </div><div class="line">           <span class="comment">// 通道1的通道费 = 资产池1当日余额 * 通道1通道费率 / 365</span></div><div class="line">           BigDecimal var1 = openProduct.getAssetPool1CurrentBalance()</div><div class="line">                                     .multiply(openProduct.getChannel1Rate())</div><div class="line">                                     .divide(ConstantValue.ONE_YEAR_B, <span class="number">2</span>, BigDecimal.ROUND_HALF_UP);</div><div class="line">           </div><div class="line">           <span class="comment">// 通道2的通道费 = 资产池2当日余额 * 通道2通道费率 / 365</span></div><div class="line">           BigDecimal var2 = openProduct.getAssetPool2Balance()</div><div class="line">                                     .multiply(openProduct.getChannel2Rate()</div><div class="line">                                                        .add(openProduct.getCustodianFee()))</div><div class="line">                                                       .divide(ConstantValue.ONE_YEAR_B, <span class="number">2</span>, BigDecimal.ROUND_HALF_UP);</div><div class="line">           </div><div class="line">           <span class="comment">// 统计日通道费 = 通道1的通道费 + 通道2的通道费</span></div><div class="line">           openProduct.setSdateChannelFee(var1.add(var2));</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">           <span class="comment">// 否则 统计日通道费 = 0</span></div><div class="line">           openProduct.setSdateChannelFee(BigDecimal.ZERO);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">return</span> openProduct;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<!-- more -->
+<h2 id="InstitutionLoanService-机构借款-Service"><a href="#InstitutionLoanService-机构借款-Service" class="headerlink" title="InstitutionLoanService 机构借款 Service"></a>InstitutionLoanService 机构借款 Service</h2><h3 id="1-calcInstitutionLoan-计算统计日期-的机构借款"><a href="#1-calcInstitutionLoan-计算统计日期-的机构借款" class="headerlink" title="1. calcInstitutionLoan 计算统计日期 的机构借款"></a>1. calcInstitutionLoan 计算统计日期 的机构借款</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;InstitutionLoan&gt; <span class="title">calcInstitutionLoan</span><span class="params">(Date sStartDate, Date sEndDate)</span> </span>&#123;</div><div class="line"></div><div class="line">        List&lt;InstitutionLoan&gt; src = getInstitutionLoans(sEndDate);</div><div class="line">        <span class="keyword">if</span> (src == <span class="keyword">null</span> || src.size() == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> src;</div><div class="line">        &#125;</div><div class="line">        List&lt;InstitutionLoan&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">        <span class="keyword">long</span> index = <span class="number">1</span>;</div><div class="line">        <span class="keyword">for</span> (InstitutionLoan institutionLoan : src) &#123;</div><div class="line">            InstitutionLoan il = calculate(institutionLoan, sStartDate, sEndDate);</div><div class="line">            il.setId(index);</div><div class="line">            index ++;</div><div class="line">            results.add(il);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> results;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="2-查询统计日期-统计结束日期的-机构借款信息"><a href="#2-查询统计日期-统计结束日期的-机构借款信息" class="headerlink" title="2. 查询统计日期 = 统计结束日期的 机构借款信息"></a>2. 查询统计日期 = 统计结束日期的 机构借款信息</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> List&lt;InstitutionLoan&gt; <span class="title">getInstitutionLoans</span><span class="params">(Date statisticsDate)</span> </span>&#123;</div><div class="line">    InstitutionLoanCriteria criteria = <span class="keyword">new</span> InstitutionLoanCriteria();</div><div class="line">    criteria.createCriteria().andStatisticsDateEqualTo(statisticsDate);</div><div class="line">    List&lt;InstitutionLoan&gt; institutionLoans = institutionLoanDAO.selectByExample(criteria);</div><div class="line">    <span class="keyword">return</span> institutionLoans;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-计算统计期内，机构借款的一些累计字段"><a href="#3-计算统计期内，机构借款的一些累计字段" class="headerlink" title="3. 计算统计期内，机构借款的一些累计字段"></a>3. 计算统计期内，机构借款的一些累计字段</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> InstitutionLoan <span class="title">calculate</span><span class="params">(InstitutionLoan institutionLoan, Date sStartDate, Date sEndDate)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 借款期限 = 还款日期 - 借款日期</div><div class="line">         */</div><div class="line">        institutionLoan.setLoanDuration(</div><div class="line">                (<span class="keyword">int</span>) daysBetween(institutionLoan.getRepayDate(), institutionLoan.getLoanDate()));</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 报告期末余额</div><div class="line">         */</div><div class="line">        <span class="keyword">if</span> (compareDate(institutionLoan.getLoanDate(), sEndDate) &lt;= <span class="number">0</span></div><div class="line">                    &amp;&amp; compareDate(sEndDate, institutionLoan.getRepayDate()) &lt; <span class="number">0</span>) &#123;</div><div class="line">     <span class="comment">// 如果 借款日期 &lt;= 统计结束日期 &lt; 还款日期, 报告期末余额 = 借款日期</span></div><div class="line">            institutionLoan.setRdateProductBalance(institutionLoan.getLoanAmount());</div><div class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则， 报告期末余额 = 0</span></div><div class="line">            institutionLoan.setRdateProductBalance(BigDecimal.ZERO);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 统计日通道费</div><div class="line">         */</div><div class="line">        BigDecimal yearOfDay = BigDecimal.valueOf(<span class="number">365</span>);</div><div class="line"></div><div class="line">        <span class="keyword">long</span> days = <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span> (compareDate(institutionLoan.getRepayDate(), sEndDate) &lt;= <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">// 还款日期 &lt;= 统计结束日期, 统计期借款总天数 = 还款日期 - 借款日期 + 1 </span></div><div class="line">        </div><div class="line">            days = daysBetween(institutionLoan.getRepayDate(), institutionLoan.getLoanDate()) + <span class="number">1</span>;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (compareDate(institutionLoan.getLoanDate(), sEndDate) &lt;= <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">// 借款日期 &lt;= 统计结束日期, 统计期借款总天数 = 统计结束日期 - 借款日期 + 1</span></div><div class="line">            days = daysBetween(sEndDate, institutionLoan.getLoanDate()) + <span class="number">1</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则  统计期借款总天数  = 0</span></div><div class="line">            days = <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// 通道费率 = 通道1费率 + 通道2费率 + 通道3费率</span></div><div class="line">        BigDecimal totalRate = institutionLoan.getChannel1Rate()</div><div class="line">                                       .add(institutionLoan.getChannel2Rate())</div><div class="line">                                       .add(institutionLoan.getChannel3Rate());</div><div class="line">        <span class="comment">// 利率 /= 100 </span></div><div class="line">        totalRate = ValueMapper.divideHundred(totalRate);</div><div class="line">        <span class="comment">// 统计日通道费 = 统计期借款总天数 * 借款金额 * 通道费率 / 365</span></div><div class="line">        BigDecimal result = BigDecimal.valueOf(days)</div><div class="line">                                    .multiply(institutionLoan.getLoanAmount())</div><div class="line">                                    .multiply(totalRate).divide(yearOfDay, <span class="number">2</span>, BigDecimal.ROUND_HALF_UP);</div><div class="line">        institutionLoan.setSdateChannelFee(result);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> institutionLoan;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<!-- more -->
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驾驶舱/">驾驶舱</a></li></ul>
+	</div>
+
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://crystalxiaoou.github.io/2017/05/09/驾驶舱合并报表Job代码学习/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/05/11/2017-05-11/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Java 8 实战学习 之 用流收集数据
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/09/2017-05-10/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Mybatis Plugin 插件</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Crystal
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js?v=4.0.0.js"></script>
+
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">CyclicBarrier和CountDownLatch的区别</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">CountDownLatch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">JSM开发步骤</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">持久化消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">非持久化消息</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Topic</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">java异常处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">JNDI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">命名服务</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">目录服务</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">apache commons</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">MYSQL锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">表级锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">行级锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">页面锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Redis命令</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Swagger</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">API接口文档自动化生成工具推荐</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Java流处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Java文件处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">SQL优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">MYSQL服务器状态</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">explain</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">sql执行计划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">慢查询</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">CyclicBarrier</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Java多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">--markdown展示</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">依赖倒转原则</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">项目</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">markdown展示</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">思维导图</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">工作效率</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">简笔画学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">驾驶舱</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Mybatis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)">Java 8</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            2、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: true
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends" q-show="friends">
+  		
+        <ul class="search-ul">
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+            </li>
+          
+        </ul>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">Crystal, &lt;br&gt;毕业于中国科学院大学&lt;br&gt;&lt;br&gt;热爱动漫，喜欢大海,&lt;/br&gt;目前是一枚Java工程师&lt;br&gt;年轻无为，卖马为生。</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
